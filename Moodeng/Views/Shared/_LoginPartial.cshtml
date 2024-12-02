@@ -15,8 +15,9 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+
+    <a id="registerLink" href="@Url.Action("Login", "Account")" class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
+        <i class="ri-user-line text-4xl"></i>
+    </a>
+
 }

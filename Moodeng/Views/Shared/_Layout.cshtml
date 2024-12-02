@@ -6,30 +6,68 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    
+   <style>
+       a {
+           text-decoration: none !important;
+       }
+
+   </style>
+
+    @* link tailwind cdn *@
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    @* link remixicon cdn *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css" integrity="sha512-6p+GTq7fjTHD/sdFPWHaFoALKeWOU9f9MPBoPnvJEWBkGS4PKVVbCpMps6IXnTiXghFbxlgDE8QRHc3MU91lJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <div class="bg-white fixed top-0 left-0 w-full z-[100] max-[768px]:px-[1rem] px-[4rem]">
+        <div class="container flex items-center h-[8rem] p-0 w-full px-[15px]">
+            <a href="/" class="text-4xl font-bold">
+                LOGO
+            </a>
+
+            <div id="nav-menu" class="min-[768px]:ml-auto flex items-center space-x-12 max-[1024px]:space-x-6 max-[768px]:fixed max-[768px]:top-[8rem] max-[768px]:left-0 max-[768px]:bg-white max-[768px]:w-full max-[768px]:h-0 max-[768px]:flex-col max-[768px]:space-x-0 max-[768px]:space-y-8 max-[768px]:transition-all max-[768px]:duration-300 max-[768px]:overflow-hidden">
+                <ul class="max-[768px]:pt-8">
+                    <li>
+                        @Html.ActionLink("HOME", "Index", "Home")
+                    </li>
                 </ul>
+                <ul>
+                    <li><a href="#">PRODUCT</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">MENU</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">MENU</a></li>
+                </ul>
+
+                <div class="bg-[#EEEEEE] rounded-full border px-2 py-2 flex items-center min-[500px]:hidden border">
+                    <input class="bg-transparent outline-none px-2 w-full" />
+                    <i class="ri-search-line text-4xl"></i>
+                </div>
+            </div>
+
+            <div class="flex items-center ml-12 space-x-6 max-[1024px]:space-x-4 max-[1024px]:ml-4 max-[768px]:ml-auto">
+                <div class="bg-[#EEEEEE] rounded-full border px-2 py-2 flex items-center max-[500px]:hidden">
+                    <input class="bg-transparent outline-none px-2 w-full" />
+                    <i class="ri-search-line text-4xl"></i>
+                </div>
+                <div class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
+                    <i class="ri-shopping-cart-2-line text-4xl"></i>
+                </div>
+
                 @Html.Partial("_LoginPartial")
+
+                <div class="min-[768px]:hidden cursor-pointer" id="nav-toggle">
+                    <i class="ri-menu-line text-4xl"></i>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content pt-[3rem]">
         @RenderBody()
         <hr />
         <footer>
@@ -42,3 +80,6 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+@*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+
+<script src="~/Scripts/main.js"></script>
