@@ -202,14 +202,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-<<<<<<< HEAD
     <Compile Include="Controllers\ProductViewModel.cs" />
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
-=======
     <Compile Include="Controllers\ProductController.cs" />
->>>>>>> d2e5b6ac30b62fbc2a79b78ea9d4f5de037467a0
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -333,11 +330,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Home\Details.cshtml" />
-=======
     <Content Include="Views\Product\Index.cshtml" />
->>>>>>> d2e5b6ac30b62fbc2a79b78ea9d4f5de037467a0
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
