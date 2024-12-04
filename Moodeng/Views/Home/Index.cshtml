@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Moodeng.Product>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -47,187 +48,47 @@
         </swiper-container>
     </div>
 
+    <div class="mt-10 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Categories</h2>
+        <div class="flex flex-wrap gap-4">
+            @foreach (var category in new[] { "Electronics", "Clothing", "Groceries", "Books", "Furniture" })
+            {
+                <form method="get" action="@Url.Action("Index")" class="inline">
+                    <input type="hidden" name="searchCategory" value="@category" />
+                    <button type="submit" class="px-6 py-2 bg-[#E9E9E9] text-[#003D29] rounded-full hover:bg-[#003D29] hover:text-white transition-colors">
+                        @category
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+
     <div class="grid grid-cols-4 mt-10 gap-6 max-lg:grid-cols-3 max-md:grid-cols-2 max-[:grid-cols-1">
+        @foreach (var product in Model)
+        {
+            <div class="col-span-1">
+                <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
+                    <img src="@product.Picture" alt="@product.ProductName" class="w-full h-full object-cover" />
 
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
+                    <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
+                        <i class="ri-heart-line text-4xl"></i>
+                    </div>
+                </div>
+                <div class="py-4">
+                    <div class="flex justify-between items-center text-2xl font-bold">
+                        <h3 class="text-lg font-bold">@product.ProductName</h3>
+                        <h4 class="text-xl font-bold">@product.Price.ToString()</h4>
+                    </div>
+                    <p class="text-lg">@product.Description</p>
+                    <div class="mt-4">
+                        <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full">Add to cart</button>
+                    </div>
+                    <div class="mt-4">
+                        <a href="@Url.Action("Details", "Home", new { id = product.ProductId })" class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full">View Details</a>
+                    </div>
                 </div>
             </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-1">
-            <div class="bg-[#E9E9E9] rounded-lg overflow-hidden relative">
-                <img class="" src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" />
-
-                <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                    <i class="ri-heart-line text-4xl"></i>
-                </div>
-            </div>
-            <div class="py-4">
-                <div class="flex justify-between items-center text-2xl font-bold">
-                    <h3>Wireless Earbuds, IPX8</h3>
-                    <h4>88.00$</h4>
-                </div>
-                <p class="text-lg">Lorem Ipsum is simply dummy text of the printing</p>
-                <div class="mt-4">
-                    <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" >Add to cart</button>
-                </div>
-            </div>
-        </div>
+        }
 
     </div>
 </div>

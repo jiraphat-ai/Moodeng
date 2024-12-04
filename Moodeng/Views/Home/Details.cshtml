@@ -1,0 +1,51 @@
+﻿@model Moodeng.Product
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - @Model.ProductName</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-900 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden">
+                <img src="@Model.Picture" alt="@Model.ProductName" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex flex-col justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">@Model.ProductName</h1>
+                    <p class="text-xl font-semibold mb-4">@Model.Price.ToString("C")</p>
+                    <div class="prose prose-sm text-gray-600 mb-6">
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <label for="quantity" class="text-sm font-medium">Quantity</label>
+                        <select id="quantity" name="quantity" class="rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black">
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <button class="w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors">
+                        Add to Cart
+                    </button>
+                    <button class="w-full bg-white text-black py-3 px-6 rounded-md border border-black hover:bg-gray-100 transition-colors">
+                        Add to Wishlist
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

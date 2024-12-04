@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="96319e892e0f4721b31e7647f222a33f" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetRole" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Category" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Inventory" Width="1.5" PointX="7.5" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Membership" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Notification" Width="1.5" PointX="7.5" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.OrderDetail" Width="1.5" PointX="12.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Order" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RetailStore" Width="1.5" PointX="5.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.SalesReport" Width="1.5" PointX="7.5" PointY="23.625" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Memberships_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Orders_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_RetailStores_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Inventory_RetailStores" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Memberships_RetailStores" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Notifications_RetailStores" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_OrderDetails_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Orders_RetailStores" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_SalesReports_RetailStores" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
