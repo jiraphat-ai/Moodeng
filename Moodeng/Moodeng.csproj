@@ -205,6 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductViewModel.cs" />
+    <Compile Include="Controllers\WishListController.cs" />
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
@@ -334,6 +335,7 @@
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\Payment.cshtml" />
+    <Content Include="Views\WishList\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

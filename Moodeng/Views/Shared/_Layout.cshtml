@@ -44,7 +44,7 @@
                     <li><a href="#">MENU</a></li>
                 </ul>
 
-                
+
             </div>
 
             <div class="flex items-center ml-12 space-x-6 max-[1024px]:space-x-4 max-[1024px]:ml-4 max-[768px]:ml-auto">
@@ -54,6 +54,13 @@
                 </div>
                 <div class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
                     <i class="ri-shopping-cart-2-line text-4xl"></i>
+                </div>
+                <div class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
+                    <form method="post" action="@Url.Action("Index", "WishList")">
+                        <button type="submit" class="bg-transparent border-none cursor-pointer">
+                            <i class="ri-heart-line text-4xl"></i>
+                        </button>
+                    </form>
                 </div>
 
                 @Html.Partial("_LoginPartial")
