@@ -71,7 +71,10 @@
                     <img src="@product.Picture" alt="@product.ProductName" class="w-full h-full object-cover" />
 
                     <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                        <i class="ri-heart-line text-4xl"></i>
+                        <form method="post" action="@Url.Action("AddToWishlist", "Home")">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <button type="submit" class="ri-heart-line text-4xl"></button>
+                        </form>
                     </div>
                 </div>
                 <div class="py-4">
@@ -92,6 +95,5 @@
 
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>

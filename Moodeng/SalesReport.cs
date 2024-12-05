@@ -11,9 +11,10 @@ namespace Moodeng
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SalesReport
-    {
+    {   [Key]
         public int ReportId { get; set; }
         public int RetailStoreId { get; set; }
         public Nullable<System.DateTime> ReportDate { get; set; }

@@ -11,15 +11,16 @@ namespace Moodeng
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class AspNetUserLogin
-    {   
-        [Key]
-        public string LoginProvider { get; set; }
-        public string ProviderKey { get; set; }
+    
+    public partial class Cart
+    {
+        public int CartId { get; set; }
         public string UserId { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+        public System.DateTime AddedDate { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

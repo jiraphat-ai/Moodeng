@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Moodeng.Models;
 using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace Moodeng.Controllers
 {
@@ -53,6 +54,23 @@ namespace Moodeng.Controllers
                 return HttpNotFound();
             }
             return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult AddToWishlist(int productId)
+        {
+            var userId = User.Identity.GetUserId();
+            var wishlistItem = new Wishlist
+            {
+                UserId = userId,
+                ProductId = productId,
+                AddedDate = DateTime.Now
+            };
+
+            db.Wishlists.Add(wishlistItem);
+            _ = db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

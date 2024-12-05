@@ -14,6 +14,13 @@ namespace Moodeng
     
     public partial class Product
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.Carts = new HashSet<Cart>();
+            this.Wishlists = new HashSet<Wishlist>();
+        }
+    
         public int ProductId { get; set; }
         public int CategoryId { get; set; }
         public string ProductName { get; set; }
@@ -22,5 +29,9 @@ namespace Moodeng
         public string Description { get; set; }
     
         public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cart> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }
