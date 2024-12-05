@@ -9,7 +9,11 @@ namespace Moodeng.Controllers
     public class ProductController : Controller
     {
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Detail()
+        {
+            return View();
+        }
+        public ActionResult Payment()
         {
             return View();
         }

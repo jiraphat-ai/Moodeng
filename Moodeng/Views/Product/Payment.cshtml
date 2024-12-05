@@ -1,0 +1,255 @@
+﻿
+
+@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h1>Checkout</h1>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Section: Delivery Information -->
+        <div class="col-md-8">
+            <div class="card p-4 mb-4 border-2">
+                <h3 class="mb-3 font-semibold">Review Item And Shipping</h3>
+                <div class="d-flex">
+                    <img src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha" alt="Product Image" class="product-image" />
+                    <div class="product-details">
+                        <h5>Airpods - Max</h5>
+                        <p class="mb-1">Color: Pink</p>
+                        <p class="mb-1">Quantity: 01</p>
+                        <h5 class="text-danger">$549.00</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Information Form -->
+            <div class="card-left p-4  ">
+                <h3 class="mb-3 font-semibold mt-5 ">Delivery Information</h3>
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label mt-5">First Name*</label>
+                            <input type="text" class="form-control" id="firstName" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label form-label mt-5">Last Name*</label>
+                            <input type="text" class="form-control" id="lastName" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address*</label>
+                        <input type="text" class="form-control" id="address" required />
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City / Town*</label>
+                            <input type="text" class="form-control" id="city" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="zipCode" class="form-label">Zip Code*</label>
+                            <input type="text" class="form-control" id="zipCode" required />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mobile" class="form-label">Mobile*</label>
+                            <input type="text" class="form-control" id="mobile" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email*</label>
+                            <input type="email" class="form-control" id="email" required />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Section: Order Summary and Payment Details -->
+        <div class="col-md-4">
+            <div class="card p-4">
+                <h3 class="mb-3 font-bold">Order Summary</h3>
+                <h5>Subtotal: <span class="float-end">$549.00</span></h5>
+                <h5>Tax (10%): <span class="float-end">$54.90</span></h5>
+                <h5>Shipping: <span class="float-end">$0.00</span></h5>
+
+                <h4>Total: <span class="float-end">$603.90</span></h4>
+
+                <h3 class="mb-3 font-bold">Payment Details</h3>
+                <form id="paymentForm">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="CashOnDelivery" required />
+                        <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="promptPay" value="PromptPay" required />
+                        <label class="form-check-label" for="promptPay">PromptPay</label>
+                    </div>
+
+
+                    <!-- QR Code Section -->
+                    <div id="qrSection" class="mt-3 " style="display: none;">
+                        <h5>Scan QR Code to Pay:</h5>
+                        <img src="https://www.paocloud.co.th/wp-content/uploads/2021/01/Screen-Shot-2564-01-26-at-18.56.53.png" alt="QR Code" style="width: 150px; height: 150px;" />
+                        <div class="mb-3">
+                            <label for="uploadProof" class="form-label mt-5">Upload Payment Proof*</label>
+                            <input type="file" class="form-control mt-5" id="uploadProof" />
+                        </div>
+                    </div>
+                </form>
+
+                <button type="submit" id="payButton" class="btn btn-primary w-full mt-10" disabled>Pay $603.90</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>document.addEventListener("DOMContentLoaded", () => {
+        const paymentForm = document.getElementById("paymentForm");
+        const payButton = document.getElementById("payButton");
+        const qrSection = document.getElementById("qrSection");
+        const cashOnDelivery = document.getElementById("cashOnDelivery");
+        const promptPay = document.getElementById("promptPay");
+        const uploadProof = document.getElementById("uploadProof");
+
+        const requiredFields = [
+            "firstName",
+            "lastName",
+            "address",
+            "city",
+            "zipCode",
+            "mobile",
+            "email",
+        ];
+
+        function isFormValid() {
+            return requiredFields.every((id) => {
+                const field = document.getElementById(id);
+                return field && field.value.trim() !== "";
+            });
+        }
+
+        function togglePayButton() {
+            if (cashOnDelivery.checked || (promptPay.checked && uploadProof.files.length > 0)) {
+                payButton.disabled = !isFormValid();
+            } else {
+                payButton.disabled = true;
+            }
+        }
+
+
+        paymentForm.addEventListener("change", () => {
+            if (cashOnDelivery.checked) {
+                qrSection.style.display = "none";
+                uploadProof.value = "";
+            } else if (promptPay.checked) {
+                qrSection.style.display = "block";
+            }
+            togglePayButton();
+        });
+
+
+        uploadProof.addEventListener("change", togglePayButton);
+
+
+        requiredFields.forEach((id) => {
+            const field = document.getElementById(id);
+            if (field) {
+                field.addEventListener("input", togglePayButton);
+            }
+        });
+    });</script>
+
+<style>
+    .card {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .card-left {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .d-flex {
+        display: flex;
+        align-items: center;
+    }
+
+    img {
+        width: 100px;
+        height: auto;
+        margin-right: 15px;
+    }
+
+    h3 {
+        font-size: 1.5em;
+    }
+
+    h5 {
+        margin: 5px 0;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    .card h3, .card h4, .card h5 {
+        margin-bottom: 1.5rem;
+    }
+
+    .card h3 {
+        font-size: 2rem;
+    }
+
+    .card h4 {
+        font-size: 1.5rem;
+    }
+
+    .card h5 {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        border-radius: 20px;
+        padding: 0.75rem 1.5rem;
+        font-size: 2rem;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+
+    #qrSection {
+        text-align: center;
+    }
+
+        #qrSection img {
+            margin: 0 auto;
+            display: block;
+        }
+
+        #qrSection input {
+            margin: 0 auto;
+            display: block;
+        }
+
+    .btn-primary {
+        margin-top: 1rem;
+    }
+</style>
+
