@@ -18,7 +18,6 @@
         <EntityTypeShape EntityType="Model.Order" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Product" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.RetailStore" Width="1.5" PointX="5.25" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.SalesReport" Width="1.5" PointX="7.5" PointY="23.625" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Memberships_Customers" ManuallyRouted="false" />
@@ -30,7 +29,6 @@
         <AssociationConnector Association="Model.FK_Notifications_RetailStores" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_OrderDetails_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Orders_RetailStores" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_SalesReports_RetailStores" ManuallyRouted="false" />
         <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.Cart" Width="1.5" PointX="8.25" PointY="6.625" />
         <EntityTypeShape EntityType="Model.Wishlist" Width="1.5" PointX="8.25" PointY="3.75" />

@@ -21,7 +21,6 @@ namespace Moodeng
             this.Memberships = new HashSet<Membership>();
             this.Notifications = new HashSet<Notification>();
             this.Orders = new HashSet<Order>();
-            this.SalesReports = new HashSet<SalesReport>();
         }
     
         public int RetailStoreId { get; set; }
@@ -39,7 +38,5 @@ namespace Moodeng
         public virtual ICollection<Notification> Notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesReport> SalesReports { get; set; }
     }
 }

@@ -58,6 +58,16 @@ namespace Moodeng.Controllers
         private bool AddProductToWishlist(int productId)
         {
             var userId = User.Identity.GetUserId();
+            bool productExists = db.Wishlists
+                           .Any(w => w.UserId == userId && w.ProductId == productId);
+
+            if (productExists)
+            {
+
+                return false;
+            }
+
+            // If not, add the product to the wishlist
             var wishlistItem = new Wishlist
             {
                 UserId = userId,

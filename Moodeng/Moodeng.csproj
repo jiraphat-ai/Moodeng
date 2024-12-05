@@ -252,9 +252,6 @@
     <Compile Include="RetailStore.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SalesReport.cs">
-      <DependentUpon>MyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Wishlist.cs">
       <DependentUpon>MyModel.tt</DependentUpon>

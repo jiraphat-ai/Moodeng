@@ -160,16 +160,6 @@
           <Property Name="StoreAddress" Type="nvarchar" MaxLength="255" />
           <Property Name="StorePhone" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <EntityType Name="SalesReports">
-          <Key>
-            <PropertyRef Name="ReportId" />
-          </Key>
-          <Property Name="ReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RetailStoreId" Type="int" Nullable="false" />
-          <Property Name="ReportDate" Type="datetime" />
-          <Property Name="TotalSales" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="TotalOrders" Type="int" />
-        </EntityType>
         <EntityType Name="Wishlist">
           <Key>
             <PropertyRef Name="WishlistId" />
@@ -367,18 +357,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SalesReports_RetailStores">
-          <End Role="RetailStores" Type="Self.RetailStores" Multiplicity="1" />
-          <End Role="SalesReports" Type="Self.SalesReports" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RetailStores">
-              <PropertyRef Name="RetailStoreId" />
-            </Principal>
-            <Dependent Role="SalesReports">
-              <PropertyRef Name="RetailStoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Wishlist_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Wishlist" Type="Self.Wishlist" Multiplicity="*" />
@@ -419,7 +397,6 @@
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RetailStores" EntityType="Self.RetailStores" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SalesReports" EntityType="Self.SalesReports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Cart_AspNetUsers" Association="Self.FK_Cart_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -480,10 +457,6 @@
           <AssociationSet Name="FK_RetailStores_AspNetUsers" Association="Self.FK_RetailStores_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="RetailStores" EntitySet="RetailStores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesReports_RetailStores" Association="Self.FK_SalesReports_RetailStores">
-            <End Role="RetailStores" EntitySet="RetailStores" />
-            <End Role="SalesReports" EntitySet="SalesReports" />
           </AssociationSet>
           <AssociationSet Name="FK_Wishlist_AspNetUsers" Association="Self.FK_Wishlist_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -662,18 +635,6 @@
           <NavigationProperty Name="Memberships" Relationship="Self.FK_Memberships_RetailStores" FromRole="RetailStores" ToRole="Memberships" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_RetailStores" FromRole="RetailStores" ToRole="Notifications" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_RetailStores" FromRole="RetailStores" ToRole="Orders" />
-          <NavigationProperty Name="SalesReports" Relationship="Self.FK_SalesReports_RetailStores" FromRole="RetailStores" ToRole="SalesReports" />
-        </EntityType>
-        <EntityType Name="SalesReport">
-          <Key>
-            <PropertyRef Name="ReportId" />
-          </Key>
-          <Property Name="ReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RetailStoreId" Type="Int32" Nullable="false" />
-          <Property Name="ReportDate" Type="DateTime" Precision="3" />
-          <Property Name="TotalSales" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalOrders" Type="Int32" />
-          <NavigationProperty Name="RetailStore" Relationship="Self.FK_SalesReports_RetailStores" FromRole="SalesReports" ToRole="RetailStores" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -811,18 +772,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SalesReports_RetailStores">
-          <End Role="RetailStores" Type="Self.RetailStore" Multiplicity="1" />
-          <End Role="SalesReports" Type="Self.SalesReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RetailStores">
-              <PropertyRef Name="RetailStoreId" />
-            </Principal>
-            <Dependent Role="SalesReports">
-              <PropertyRef Name="RetailStoreId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -841,7 +790,6 @@
           <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="RetailStores" EntityType="Self.RetailStore" />
-          <EntitySet Name="SalesReports" EntityType="Self.SalesReport" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -885,10 +833,6 @@
           <AssociationSet Name="FK_Orders_RetailStores" Association="Self.FK_Orders_RetailStores">
             <End Role="RetailStores" EntitySet="RetailStores" />
             <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesReports_RetailStores" Association="Self.FK_SalesReports_RetailStores">
-            <End Role="RetailStores" EntitySet="RetailStores" />
-            <End Role="SalesReports" EntitySet="SalesReports" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -1134,17 +1078,6 @@
                 <ScalarProperty Name="StoreName" ColumnName="StoreName" />
                 <ScalarProperty Name="StoreAddress" ColumnName="StoreAddress" />
                 <ScalarProperty Name="StorePhone" ColumnName="StorePhone" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SalesReports">
-            <EntityTypeMapping TypeName="Model.SalesReport">
-              <MappingFragment StoreEntitySet="SalesReports">
-                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
-                <ScalarProperty Name="RetailStoreId" ColumnName="RetailStoreId" />
-                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
-                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
-                <ScalarProperty Name="TotalOrders" ColumnName="TotalOrders" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
