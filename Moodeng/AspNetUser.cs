@@ -23,6 +23,8 @@ namespace Moodeng
             this.Orders = new HashSet<Order>();
             this.RetailStores = new HashSet<RetailStore>();
             this.AspNetRoles = new HashSet<AspNetRole>();
+            this.Carts = new HashSet<Cart>();
+            this.Wishlists = new HashSet<Wishlist>();
         }
     
         public string Id { get; set; }
@@ -50,5 +52,9 @@ namespace Moodeng
         public virtual ICollection<RetailStore> RetailStores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cart> Carts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

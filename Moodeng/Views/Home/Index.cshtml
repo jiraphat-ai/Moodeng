@@ -71,7 +71,8 @@
                     <img src="@product.Picture" alt="@product.ProductName" class="w-full h-full object-cover" />
 
                     <div class="size-[4rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3">
-                        <i class="ri-heart-line text-4xl"></i>
+                        <input type="hidden" name="productId" value="@product.ProductId" />
+                        <button id="addW" onclick="addWishList(@product.ProductId)" class="ri-heart-line text-4xl"></button>
                     </div>
                 </div>
                 <div class="py-4">
@@ -90,8 +91,21 @@
             </div>
         }
 
+
     </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script>
+
+
+
+    async function addWishList(id) {
+        const add = await axios.post("@Url.Action("AddToWishlist", "Home")", { productId: id });
+        if (add.status == 200) {
+            alert(add.data.message);
+        }
+        
+      
+    }
+</script>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Moodeng.Models;
 using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace Moodeng.Controllers
 {
@@ -53,6 +54,44 @@ namespace Moodeng.Controllers
                 return HttpNotFound();
             }
             return View(product);
+        }
+        private bool AddProductToWishlist(int productId)
+        {
+            var userId = User.Identity.GetUserId();
+            var wishlistItem = new Wishlist
+            {
+                UserId = userId,
+                ProductId = productId,
+                AddedDate = DateTime.Now
+            };
+
+            db.Wishlists.Add(wishlistItem);
+            int status = db.SaveChanges();
+            // Simulate successful addition
+            return status > 0;
+        }
+        [HttpPost]
+        public JsonResult AddToWishlist(int productId)
+        {
+            try
+            {
+                // Logic to add the product to the wishlist
+                // Example: Save productId to the database or session
+                bool isAdded = AddProductToWishlist(productId); // Replace with your logic
+
+                if (isAdded)
+                {
+                    return Json(new { success = true, message = "Product added to wishlist successfully!" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Failed to add product to wishlist." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
         }
     }
 }
