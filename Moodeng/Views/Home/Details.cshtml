@@ -1,51 +1,325 @@
 ﻿@model Moodeng.Product
 
-@{
-    ViewBag.Title = "Product Details";
-}
+@{ ViewBag.Title = "Product Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - @Model.ProductName</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-white text-gray-900 min-h-screen flex items-center justify-center">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden">
-                <img src="@Model.Picture" alt="@Model.ProductName" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex flex-col justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold mb-2">@Model.ProductName</h1>
-                    <p class="text-xl font-semibold mb-4">@Model.Price.ToString("C")</p>
-                    <div class="prose prose-sm text-gray-600 mb-6">
-                        <p>@Model.Description</p>
+<div class="min-h-[80vh] flex justify-between items-center">
+
+    <div class="container product-page">
+        <div class="row">
+            <!-- Product Gallery Section -->
+            <div class="flex flex-wrap lg:flex-nowrap justify-between gap-20">
+                <div class="col-md-6">
+                    <div class="product-gallery">
+                        <div class="main-image-container">
+                            <img class="main-image"
+                                 src="@Model.Picture"
+                                 alt="@Model.ProductName" />
+                        </div>
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-4">
-                        <label for="quantity" class="text-sm font-medium">Quantity</label>
-                        <select id="quantity" name="quantity" class="rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black">
-                            @for (int i = 1; i <= 10; i++)
-                            {
-                                <option value="@i">@i</option>
-                            }
-                        </select>
+
+                <!-- Product Details Section -->
+                <div class="col-md-6">
+                    <h1 class="product-title">@Model.ProductName</h1>
+                    <p class="product-description text-muted">@Model.Description</p>
+
+                    <hr class="mt-10">
+
+                    <p class="product-price mt-5">
+                        @Model.Price.ToString("C")
+                    </p>
+
+                    <hr class="mt-5">
+
+                    <div class="mt-5">
+                        <label for="quantity" class="text-2xl font-medium">Quantity</label>
+                        <br/>
+                        <div class="flex items-center border rounded-md px-2 w-fit">
+                            <button type="button" id="decreaseQty" class="px-2 py-1 text-2xl border-r border-gray-300" onclick="changeQuantity(-1)">-</button>
+
+                            <span id="quantityValue" class="px-4 text-2xl">1</span>
+
+                            <button type="button" id="increaseQty" class="px-2 py-1 text-2xl border-l border-gray-300" onclick="changeQuantity(1)">+</button>
+                        </div>
                     </div>
-                    <button class="w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors">
-                        Add to Cart
-                    </button>
-                    <button class="w-full bg-white text-black py-3 px-6 rounded-md border border-black hover:bg-gray-100 transition-colors">
-                        Add to Wishlist
-                    </button>
+
+                    <!-- Buttons -->
+                    <div class="action-buttons d-flex mb-3 mt-10">
+                        <button class="btn btn-dark btn-lg me-2">Add to Cart</button>
+                        <button class="btn btn-outline-dark btn-lg">Add to Wishlist</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
 
+<script>
+    let quantity = 1; // ค่าเริ่มต้น
+
+    // ฟังก์ชันเปลี่ยนค่า quantity
+    function changeQuantity(change) {
+        const quantityValue = document.getElementById('quantityValue');
+        quantity += change;
+
+        // ป้องกันไม่ให้ quantity ต่ำกว่า 1 หรือเกิน 10
+        if (quantity < 1) quantity = 1;
+        if (quantity > 10) quantity = 10;
+
+        quantityValue.textContent = quantity;
+    }
+</script>
+
+<style>
+    .custom-color-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .quantity-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .quantity-control {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 5px 10px;
+        flex-shrink: 0;
+    }
+
+        .quantity-control button {
+            background-color: transparent;
+            font-size: 16px;
+            color: #555;
+        }
+
+            .quantity-control button:hover {
+                color: #000;
+            }
+
+    .quantity-value {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .stock-info {
+        flex-grow: 1;
+        text-align: right;
+    }
+
+        .stock-info .stock-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .stock-info small {
+            font-size: 12px;
+            color: #888;
+        }
+
+    .info-box {
+        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+    }
+
+        .info-box i {
+            font-size: 24px; /* ขนาดไอคอน */
+            color: orange; /* สีของไอคอน */
+            padding: 10px
+        }
+
+        .info-box strong {
+            font-size: 16px; /* ขนาดหัวข้อ */
+            color: #333; /* สีข้อความหัวข้อ */
+        }
+
+        .info-box p {
+            font-size: 14px; /* ขนาดข้อความย่อย */
+            margin: 0;
+        }
+
+    .color-circle {
+        width: 40px !important; /* บังคับความกว้าง */
+        height: 40px !important; /* บังคับความสูง */
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+        .color-circle:hover {
+            transform: scale(1.2);
+        }
+
+
+    .color-selection .d-flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .product-page {
+        max-width: 1280px;
+        margin: auto;
+    }
+
+    .product-gallery {
+        text-align: center;
+    }
+
+
+    .product-description {
+        margin-top: -3px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .main-image-container {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .main-image {
+        width: 90%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .thumbnails-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .thumbnail {
+        width: 140px;
+        height: 140px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #007bff;
+        }
+
+    .product-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .color-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #ddd;
+        transition: border-color 0.3s;
+    }
+
+        .color-circle:hover {
+            border-color: #333;
+        }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .quantity-value {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .action-buttons button {
+        min-width: 150px;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    .btn-dark {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-outline-dark {
+        border: 2px solid #007bff;
+        color: #007bff;
+    }
+
+    .additional-info p {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .product-specifications {
+        margin-top: 20px;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .spec-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .spec-subtitle {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #555;
+    }
+
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        border: none !important;
+        border-spacing: 0;
+        margin: 0;
+    }
+
+        .table th,
+        .table td {
+            background-color: #fffff;
+            border: none;
+            padding: 8px 12px;
+            text-align: left;
+            border: none !important;
+        }
+
+        .table th {
+            background-color: #fffff;
+            font-weight: bold;
+            border: none !important;
+        }
+
+        .table tbody tr {
+            border: none;
+        }
+
+    .row-1 {
+        background-color: #f0f0f0;
+    }
+</style>
