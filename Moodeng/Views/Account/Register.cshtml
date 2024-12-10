@@ -1,7 +1,7 @@
 ﻿@model Moodeng.Models.RegisterViewModel
 
 
-<div class="flex justify-center pt-[5rem] max-sm:pt-[1rem] h-[calc(100vh_-_10rem)]">
+<div class="flex justify-center pt-[8rem] max-sm:pt-[1rem] h-[calc(100vh_-_10rem)]">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "w-[400px]", role = "form" }))
     {
         @Html.AntiForgeryToken()
