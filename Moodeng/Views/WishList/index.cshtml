@@ -1,0 +1,104 @@
+﻿@model List<Moodeng.Wishlist>
+
+@{
+    ViewBag.Title = "Your Wishlist";
+}
+
+<style>
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .wishlist-container {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .wishlist-item {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+        .wishlist-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+    .wishlist-details {
+        flex-grow: 1;
+        margin-left: 1rem;
+    }
+
+    .wishlist-actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+        .wishlist-actions button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .wishlist-actions button:hover {
+                background: #c2185b;
+            }
+</style>
+
+<div class="wishlist-container">
+    <h1>Your Wishlist</h1>
+
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="wishlist-item">
+                <img src="@item.Product.Picture" alt="@item.Product.ProductName" />
+                <div class="wishlist-details">
+                    <h3>@item.Product.ProductName</h3>
+                    <p>@item.Product.Description</p>
+                    <p><strong>Price:</strong> @item.Product.Price.ToString("C")</p>
+                </div>
+                <div class="wishlist-actions">
+                    <form method="post" action="@Url.Action("RemoveFromWishlist", "WishList")">
+                        <button type="submit" onclick="RemoveWishList(@item.WishlistId)">Remove from Wishlist</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Your wishlist is empty.</p>
+    }
+</div>
+
+<script>
+
+
+
+    async function RemoveWishList(id) {
+        const add = await axios.post("@Url.Action("RemoveFromWishlist", "WishList")", { wishlistId: parseInt(id) });
+        if (add.status == 200) {
+            alert(add.data.message);
+        }
+
+
+    }
+</script>

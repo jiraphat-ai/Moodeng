@@ -40,5 +40,6 @@ namespace Moodeng
         public virtual DbSet<RetailStore> RetailStores { get; set; }
         public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Wishlist> Wishlists { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
     }
 }

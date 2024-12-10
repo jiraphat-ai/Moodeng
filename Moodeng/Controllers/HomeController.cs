@@ -103,5 +103,37 @@ namespace Moodeng.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
+        public ActionResult AddToCart(int productId, int quantity = 1)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+
+                var existingCartItem = db.Carts.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
+
+                if (existingCartItem != null)
+                {
+                    existingCartItem.Quantity += quantity;
+                }
+                else
+                {
+                    var cartItem = new Cart
+                    {
+                        UserId = userId,
+                        ProductId = productId,
+                        Quantity = quantity,
+                        AddedDate = DateTime.Now
+                    };
+                    db.Carts.Add(cartItem);
+                }
+
+                db.SaveChanges();
+                return Json(new { success = true, message = "Product added to cart successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
     }
 }
