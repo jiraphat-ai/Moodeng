@@ -26,6 +26,8 @@ namespace Moodeng
         public Nullable<System.DateTime> OrderDate { get; set; }
         public string OrderStatus { get; set; }
         public decimal TotalAmount { get; set; }
+        public string Payment { get; set; }
+        public byte PaymentStatus { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

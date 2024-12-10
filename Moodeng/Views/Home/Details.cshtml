@@ -36,8 +36,9 @@
                             }
                         </select>
                     </div>
-                    <button class="w-full bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors">
-                        Add to Cart
+
+                    <button class="w-full bg-white text-black py-3 px-6 rounded-md border border-black hover:bg-gray-100 transition-colors" onclick="addToCart(@Model.ProductId)">
+                        Add to cart
                     </button>
                     <button class="w-full bg-white text-black py-3 px-6 rounded-md border border-black hover:bg-gray-100 transition-colors">
                         Add to Wishlist
@@ -49,3 +50,19 @@
 </body>
 </html>
 
+<script>
+    async function addToCart(productId) {
+    const quantity = document.getElementById("quantity").value;
+    try {
+        const response = await axios.post("@Url.Action("AddToCart", "Home")", {
+            productId: productId,
+            quantity: parseInt(quantity, 10) 
+        });
+        if (response.status === 200) {
+            alert(response.data.message);
+        }
+    } catch (error) {
+        alert("An error occurred: " + error.message);
+    }
+}
+</script>

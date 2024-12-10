@@ -1,0 +1,89 @@
+﻿@model List<Moodeng.Cart>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.Title = "Your Cart";
+}
+<h2>Cart List</h2>
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
+    @if (Model.Any())
+    {
+        <table class="table-auto w-full text-left border-collapse border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border border-gray-200 px-4 py-2">Product</th>
+                    <th class="border border-gray-200 px-4 py-2">Quantity</th>
+                    <th class="border border-gray-200 px-4 py-2">Price</th>
+                    <th class="border border-gray-200 px-4 py-2">Total</th>
+                    <th class="border border-gray-200 px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <img src="@item.Product.Picture" alt="@item.Product.ProductName" class="inline-block w-16 h-16 object-cover rounded-lg" />
+                        <span class="ml-4">@item.Product.ProductName</span>
+                    </td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <input type="number" min="1" value="@item.Quantity" class="w-16 text-center border rounded-lg" onchange="updateQuantity(@item.ProductId, this.value)" />
+                    </td>
+                    <td class="border border-gray-200 px-4 py-2">@item.Product.Price.ToString("C")</td>
+                    <td class="border border-gray-200 px-4 py-2">@((item.Product.Price * item.Quantity).ToString("C"))</td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="removeFromCart(@item.ProductId)">Remove</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right mt-6">
+            <h3 class="text-2xl font-bold">Total: @Model.Sum(i => i.Product.Price * i.Quantity).ToString("C")</h3>
+            <button id="proceedButton" class="bg-green-500 text-white px-8 py-3 rounded mt-4"> Proceed to Checkout </button>
+        </div>
+    }
+    else
+    {
+        <p class="text-gray-500">Your cart is empty.</p>
+    }
+</div>
+
+<script>
+    async function removeFromCart(productId) {
+        const response = await axios.post('@Url.Action("RemoveFromCart", "Cart")', { productId: productId });
+        if (response.data.success) {
+            location.reload();
+        } else {
+            alert(response.data.message);
+        }
+    }
+
+    async function updateQuantity(productId, quantity) {
+        const response = await axios.post('@Url.Action("UpdateQuantity", "Cart")', { productId: productId, quantity: quantity });
+        if (response.data.success) {
+            location.reload();
+        } else {
+            alert(response.data.message);
+        }
+    }
+
+     $(document).ready(function() {
+        $('#proceedButton').click(function() {
+            $.ajax({
+                url: '@Url.Action("ProceedToPayment", "CartController")', 
+                type: 'POST', 
+                success: function(response) {
+                    alert('Proceeding to Checkout!');
+                },
+                error: function(xhr, status, error) {
+                    alert('Error occurred: ' + error);
+                }
+            });
+        });
+    });
+</script>

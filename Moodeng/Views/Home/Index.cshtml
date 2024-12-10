@@ -82,7 +82,9 @@
                     </div>
                     <p class="text-lg">@product.Description</p>
                     <div class="mt-4">
-                        <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full">Add to cart</button>
+                        <button class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full" onclick="addToCart(@product.ProductId)">
+                            Add to cart
+                        </button>
                     </div>
                     <div class="mt-4">
                         <a href="@Url.Action("Details", "Home", new { id = product.ProductId })" class="px-12 py-3 border border-[#003D29] text-[#003D29] rounded-full">View Details</a>
@@ -98,14 +100,21 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 <script>
 
-
-
     async function addWishList(id) {
         const add = await axios.post("@Url.Action("AddToWishlist", "Home")", { productId: id });
         if (add.status == 200) {
             alert(add.data.message);
         }
-        
-      
     }
+
+    async function addToCart(productId) {
+    try {
+        const response = await axios.post("@Url.Action("AddToCart", "Home")", { productId: productId, quantity: 1 });
+        if (response.status === 200) {
+            alert(response.data.message);
+        }
+    } catch (error) {
+        alert("An error occurred: " + error.message);
+    }
+}
 </script>

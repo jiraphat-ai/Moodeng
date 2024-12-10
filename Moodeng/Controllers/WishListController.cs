@@ -47,7 +47,6 @@ namespace Moodeng.Controllers
             }
         }
 
-        // Method to display wishlist
       
     }
 }

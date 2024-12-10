@@ -36,6 +36,8 @@
         <AssociationConnector Association="Model.FK_Wishlist_AspNetUsers" />
         <AssociationConnector Association="Model.FK_Cart_Products" />
         <AssociationConnector Association="Model.FK_Wishlist_Products" />
+        <EntityTypeShape EntityType="Model.Address" Width="1.5" PointX="5.25" PointY="11" />
+        <AssociationConnector Association="Model.FK_Address_Customers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

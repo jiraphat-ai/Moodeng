@@ -15,6 +15,20 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,6 +54,7 @@
           <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="id" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
@@ -138,6 +153,8 @@
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="OrderStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Payment" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PaymentStatus" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -169,6 +186,18 @@
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="AddedDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Address_Customers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cart_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
@@ -383,6 +412,7 @@
         </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -398,6 +428,10 @@
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RetailStores" EntityType="Self.RetailStores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wishlist" EntityType="Self.Wishlist" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Customers" Association="Self.FK_Address_Customers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cart_AspNetUsers" Association="Self.FK_Cart_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Cart" EntitySet="Cart" />
@@ -509,6 +543,7 @@
           <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
@@ -534,6 +569,7 @@
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Carts" Relationship="Model.FK_Cart_AspNetUsers" FromRole="AspNetUser" ToRole="Cart" />
           <NavigationProperty Name="Wishlists" Relationship="Model.FK_Wishlist_AspNetUsers" FromRole="AspNetUser" ToRole="Wishlist" />
+          <NavigationProperty Name="Addresses" Relationship="Model.FK_Address_Customers" FromRole="AspNetUser" ToRole="Address" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -606,6 +642,8 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="AspNetUsers" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
           <NavigationProperty Name="RetailStore" Relationship="Self.FK_Orders_RetailStores" FromRole="Orders" ToRole="RetailStores" />
+          <Property Name="Payment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -856,6 +894,11 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Wishlist" EntitySet="Wishlists" />
           </AssociationSet>
+          <EntitySet Name="Addresses" EntityType="Model.Address" />
+          <AssociationSet Name="FK_Address_Customers" Association="Model.FK_Address_Customers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Cart">
           <Key>
@@ -928,6 +971,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_Address_Customers" FromRole="Address" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_Address_Customers">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -965,6 +1035,7 @@
           <EntitySetMapping Name="AspNetUserLogins">
             <EntityTypeMapping TypeName="Model.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1049,6 +1120,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="Model.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="RetailStoreId" ColumnName="RetailStoreId" />
@@ -1107,6 +1180,21 @@
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="WishlistId" ColumnName="WishlistId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="Model.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address1" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

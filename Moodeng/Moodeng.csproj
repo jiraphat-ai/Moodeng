@@ -177,6 +177,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -202,8 +205,11 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CartItemViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProductViewModel.cs" />
     <Compile Include="Controllers\WishListController.cs" />
     <Compile Include="C__MigrationHistory.cs">
@@ -336,6 +342,8 @@
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\Payment.cshtml" />
     <Content Include="Views\WishList\index.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
