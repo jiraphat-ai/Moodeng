@@ -8,13 +8,19 @@
     <div class="container product-page">
         <div class="row">
             <!-- Product Gallery Section -->
-            <div class="flex flex-wrap lg:flex-nowrap justify-between gap-20">
+            <div class="flex flex-wrap mt-16 lg:flex-nowrap justify-between gap-20">
                 <div class="col-md-6">
                     <div class="product-gallery">
-                        <div class="main-image-container">
-                            <img class="main-image"
-                                 src="@Model.Picture"
-                                 alt="@Model.ProductName" />
+                        <div class="product-gallery">
+                            <div class="main-image-container border h-[60vh]">
+                                @*<img class="main-image"
+                                     src="https://sony.scene7.com/is/image/sonyglobalsolutions/wh-ch520_Primary_image?$categorypdpnav$&fmt=png-alpha"
+                                     alt="Main Product Image" />*@
+
+                                <img class="main-image w-full h-full object-cover"
+                                     src="@Model.Picture"
+                                     alt="@Model.ProductName" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +40,7 @@
 
                     <div class="mt-5">
                         <label for="quantity" class="text-2xl font-medium">Quantity</label>
-                        <br/>
+                        <br />
                         <div class="flex items-center border rounded-md px-2 w-fit">
                             <button type="button" id="decreaseQty" class="px-2 py-1 text-2xl border-r border-gray-300" onclick="changeQuantity(-1)">-</button>
 
@@ -48,6 +54,24 @@
                     <div class="action-buttons d-flex mb-3 mt-10">
                         <button class="btn btn-dark btn-lg me-2">Add to Cart</button>
                         <button class="btn btn-outline-dark btn-lg">Add to Wishlist</button>
+                    </div>
+
+                    <!-- Additional Info -->
+                    <div class="additional-info mt-10">
+                        <div class="info-box border rounded p-3 mb-3 d-flex align-items-center">
+                            <i class="fas fa-truck text-warning me-3"></i>
+                            <div>
+                                <strong>Free Delivery</strong>
+                                <p class="mb-0 text-muted">Enter your Postal code for Delivery Availability.</p>
+                            </div>
+                        </div>
+                        <div class="info-box border rounded p-3 d-flex align-items-center">
+                            <i class="fas fa-box text-warning me-3 "></i>
+                            <div>
+                                <strong class=" ps-3">Return Delivery</strong>
+                                <p class="mb-0 text-muted ps-3">Free 30-days Delivery Returns. <a href="#">Details</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -186,9 +210,9 @@
     }
 
     .main-image {
-        width: 90%;
-        height: auto;
-        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
     .thumbnails-container {
@@ -318,4 +342,3 @@
         .table tbody tr {
             border: none;
         }
-
