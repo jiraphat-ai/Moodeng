@@ -72,18 +72,6 @@
         }
     }
 
-     $(document).ready(function() {
-        $('#proceedButton').click(function() {
-            $.ajax({
-                url: '@Url.Action("ProceedToPayment", "CartController")', 
-                type: 'POST', 
-                success: function(response) {
-                    alert('Proceeding to Checkout!');
-                },
-                error: function(xhr, status, error) {
-                    alert('Error occurred: ' + error);
-                }
-            });
-        });
-    });
+  
+ 
 </script>
