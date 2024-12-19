@@ -16,12 +16,22 @@ namespace Moodeng.Controllers
             var userRole = User.IsInRole("customer");
             if (userRole)
             {
-
+                // สามารถเพิ่มเงื่อนไขเพิ่มเติมได้ หากต้องการ
             }
-           
+
+            // ดึงสินค้าที่อยู่ใน Cart ของผู้ใช้
             var cartItems = db.Carts
                 .Where(c => c.UserId == userId)
                 .ToList();
+
+            // ดึง Categories ของสินค้าที่อยู่ใน Cart และกรองข้อมูลที่ไม่ซ้ำ
+            var categories = cartItems
+                .Select(c => c.Product.Category)
+                .Distinct()
+                .ToList();
+
+            // ส่ง Categories ไปยัง View ผ่าน ViewBag
+            ViewBag.Categories = categories;
 
             return View(cartItems);
         }
@@ -66,6 +76,5 @@ namespace Moodeng.Controllers
 
             return Json(new { success = true, message = "Proceed to Checkout Successful" });
         }
-
     }
 }
