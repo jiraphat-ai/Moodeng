@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
 using Moodeng.Models;
-using System.Net;
 using Microsoft.AspNet.Identity;
 
 namespace Moodeng.Controllers
@@ -19,7 +18,9 @@ namespace Moodeng.Controllers
 
             if (!String.IsNullOrEmpty(searchCategory))
             {
-                products = products.Where(p => p.Category.CategoryName.Equals(searchCategory, StringComparison.OrdinalIgnoreCase)).ToList();
+                products = products
+                    .Where(p => p.Category.CategoryName.Equals(searchCategory, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
             }
 
             return View(products);
@@ -48,26 +49,34 @@ namespace Moodeng.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Single(x => x.ProductId == id);
+
+            var product = db.Products.SingleOrDefault(x => x.ProductId == id);
+
             if (product == null)
             {
                 return HttpNotFound();
             }
+
             return View(product);
         }
-        private bool AddProductToWishlist(int productId)
+
+        private bool ToggleWishlist(int productId)
         {
             var userId = User.Identity.GetUserId();
-            bool productExists = db.Wishlists
-                           .Any(w => w.UserId == userId && w.ProductId == productId);
 
-            if (productExists)
+            // ตรวจสอบว่า Product มีอยู่ใน Wishlist หรือไม่
+            var existingWishlistItem = db.Wishlists
+                .FirstOrDefault(w => w.UserId == userId && w.ProductId == productId);
+
+            if (existingWishlistItem != null)
             {
-
-                return false;
+                // หากมีอยู่แล้วให้ลบออก
+                db.Wishlists.Remove(existingWishlistItem);
+                db.SaveChanges();
+                return false; // สถานะเป็นการลบออก
             }
 
-            // If not, add the product to the wishlist
+            // หากไม่มี ให้เพิ่มเข้า Wishlist
             var wishlistItem = new Wishlist
             {
                 UserId = userId,
@@ -76,18 +85,16 @@ namespace Moodeng.Controllers
             };
 
             db.Wishlists.Add(wishlistItem);
-            int status = db.SaveChanges();
-            // Simulate successful addition
-            return status > 0;
+            db.SaveChanges();
+            return true; // สถานะเป็นการเพิ่ม
         }
+
         [HttpPost]
         public JsonResult AddToWishlist(int productId)
         {
             try
             {
-                // Logic to add the product to the wishlist
-                // Example: Save productId to the database or session
-                bool isAdded = AddProductToWishlist(productId); // Replace with your logic
+                var isAdded = ToggleWishlist(productId);
 
                 if (isAdded)
                 {
@@ -95,7 +102,7 @@ namespace Moodeng.Controllers
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Failed to add product to wishlist." });
+                    return Json(new { success = true, message = "Product removed from wishlist successfully!" });
                 }
             }
             catch (Exception ex)
@@ -103,20 +110,24 @@ namespace Moodeng.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
+
         public ActionResult AddToCart(int productId, int quantity = 1)
         {
             try
             {
                 var userId = User.Identity.GetUserId();
 
+                // ตรวจสอบว่าสินค้ามีอยู่ใน Cart หรือไม่
                 var existingCartItem = db.Carts.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
 
                 if (existingCartItem != null)
                 {
+                    // หากมีแล้วให้เพิ่มจำนวนสินค้า
                     existingCartItem.Quantity += quantity;
                 }
                 else
                 {
+                    // หากไม่มี ให้เพิ่มสินค้าใหม่ลงใน Cart
                     var cartItem = new Cart
                     {
                         UserId = userId,
@@ -124,6 +135,7 @@ namespace Moodeng.Controllers
                         Quantity = quantity,
                         AddedDate = DateTime.Now
                     };
+
                     db.Carts.Add(cartItem);
                 }
 

@@ -52,9 +52,13 @@
 
                     <!-- Buttons -->
                     <div class="action-buttons d-flex mb-3 mt-10">
-                        <button class="btn btn-dark btn-lg me-2">Add to Cart</button>
-                        <button class="btn btn-outline-dark btn-lg">Add to Wishlist</button>
+                        <!-- Add to Cart Button -->
+                        <button class="btn btn-dark btn-lg me-2" onclick="addToCart(@Model.ProductId)">Add to Cart</button>
+
+                        <!-- Add to Wishlist Button -->
+                        <button class="btn btn-outline-dark btn-lg" onclick="addWishList(@Model.ProductId)">Add to Wishlist</button>
                     </div>
+
 
                     <!-- Additional Info -->
                     <div class="additional-info mt-10">
@@ -80,6 +84,32 @@
 </div>
 
 <script>
+
+
+   async function addToCart(productId) {
+    try {
+        const response = await axios.post("@Url.Action("AddToCart", "Home")", { productId: productId, quantity: quantity });
+        if (response.status === 200) {
+            alert(response.data.message);
+        }
+    } catch (error) {
+        alert("An error occurred: " + error.message);
+    }
+    }
+
+    async function addWishList(id) {
+    try {
+        const add = await axios.post("@Url.Action("AddToWishlist", "Home")", { productId: id });
+        if (add.status === 200) {
+            alert(add.data.message);
+        }
+    } catch (error) {
+        alert("An error occurred: " + error.message);
+    }
+}
+
+
+
     let quantity = 1; // ค่าเริ่มต้น
 
     // ฟังก์ชันเปลี่ยนค่า quantity
