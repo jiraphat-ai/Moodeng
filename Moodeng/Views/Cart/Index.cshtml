@@ -55,7 +55,8 @@
         </table>
         <div class="text-right mt-10">
             <h3 class="text-3xl font-bold">Total: @Model.Sum(i => i.Product.Price * i.Quantity).ToString("C")</h3>
-            <button id="proceedButton" class="bg-green-500 font-semibold text-white text-3xl px-12 py-4 rounded-lg mt-10 transition duration-300 ease-in-out hover:bg-green-600 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-700 shadow-lg">
+            <button id="proceedButton" class="bg-green-500 font-semibold text-white text-3xl px-12 py-4 rounded-lg mt-10 transition duration-300 ease-in-out hover:bg-green-600 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-700 shadow-lg"
+                    onclick="proceedToPayment()">
                 Checkout
             </button>
 
@@ -98,5 +99,8 @@
             input.value = parseInt(input.value) - 1;
             updateQuantity(productId, input.value);
         }
+    }
+    function proceedToPayment() {
+    window.location.href = '@Url.Action("Index", "Payment")'; 
     }
 </script>

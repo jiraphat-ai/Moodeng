@@ -1,0 +1,199 @@
+﻿View@{
+        ViewBag.Title = "Admin Dashboard";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .chart-container {
+        margin-bottom: 30px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+    }
+
+    .filter-section {
+        margin-bottom: 20px;
+    }
+    .summary-cards {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 30%;
+    }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+        }
+</style>
+
+<div class="dashboard-container">
+    <div class="summary-cards">
+        <div class="card">
+            <h3>ยอดขายทั้งหมด</h3>
+            <p>@ViewBag.TotalSales.ToString("C")</p>
+        </div>
+        <div class="card">
+            <h3>คำสั่งซื้อที่รอการจัดส่ง</h3>
+            <p>@ViewBag.PendingOrdersCount รายการ</p>
+        </div>
+        <div class="card">
+            <h3>คำสั่งซื้อที่จัดส่งสำเร็จ</h3>
+            <p>@ViewBag.CompletedOrdersCount รายการ</p>
+        </div>
+    </div>
+    </div>
+
+    <div class="dashboard-container">
+        <h2>Dashboard ข้อมูลการขาย</h2>
+
+        <div class="filter-section">
+            <select id="monthFilter" class="form-control" style="width: 200px;">
+                <option value="1">มกราคม 2024</option>
+                <option value="2">กุมภาพันธ์ 2024</option>
+                <option value="3">มีนาคม 2024</option>
+                <option value="4">เมษายน 2024</option>
+                <option value="5">พฤษภาคม 2024</option>
+                <option value="6">มิถุนายน 2024</option>
+                <option value="7">กรกฎาคม 2024</option>
+                <option value="8">สิงหาคม 2024</option>
+                <option value="9">กันยายน 2024</option>
+                <option value="10">ตุลาคม 2024</option>
+                <option value="11">พฤศจิกายน 2024</option>
+                <option value="12">ธันวาคม 2024</option>
+            </select>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h4>ยอดขายรวมรายเดือน</h4>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h4>สินค้าขายดี Top 5</h4>
+                    <canvas id="bestSellersChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h4>สินค้าแนวโน้มมาแรง</h4>
+                    <canvas id="trendingChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h4>สินค้าที่ขายได้น้อย</h4>
+                    <canvas id="lowSalesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+        const bestSellingProducts = @Html.Raw(Json.Encode(ViewBag.BestSellingProducts));
+        const leastSellingProducts = @Html.Raw(Json.Encode(ViewBag.LeastSellingProducts));
+        const trendingProducts = @Html.Raw(Json.Encode(ViewBag.TrendingProducts));
+
+        const topProducts = {
+            labels: bestSellingProducts.map(p => p.ProductName),
+            data: bestSellingProducts.map(p => p.TotalSold)
+        };
+
+        const lowSalesProducts = {
+            labels: leastSellingProducts.map(p => p.ProductName),
+            data: leastSellingProducts.map(p => p.TotalSold)
+        };
+
+        const trendingProductsData = {
+            labels: trendingProducts.map(p => p.ProductName),
+            data: trendingProducts.map(p => p.TotalSold)
+        };
+
+        const monthlyData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            data: [12000, 15000, 13000, 17000, 14000, 16000, 18000, 20000, 19000, 21000, 23000, 22000]
+        };
+
+        new Chart(document.getElementById('salesChart'), {
+            type: 'line',
+            data: {
+                labels: monthlyData.labels,
+                datasets: [{
+                    label: 'ยอดขาย (บาท)',
+                    data: monthlyData.data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('bestSellersChart'), {
+            type: 'bar',
+            data: {
+                labels: topProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้ (ชิ้น)',
+                    data: topProducts.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('trendingChart'), {
+            type: 'bar',
+            data: {
+                labels: trendingProductsData.labels,
+                datasets: [{
+                    label: 'อัตราการเติบโต (%)',
+                    data: trendingProductsData.data,
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)'
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('lowSalesChart'), {
+            type: 'bar',
+            data: {
+                labels: lowSalesProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้ (ชิ้น)',
+                    data: lowSalesProducts.data,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                }]
+            }
+        });
+
+        document.getElementById('monthFilter').addEventListener('change', function () {
+            alert('เลือกเดือน: ' + this.value);
+        });
+        </script>
+    }
