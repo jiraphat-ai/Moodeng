@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .dashboard-container {
+        padding: 20px;
+    }
+    .chart-container {
+        margin-bottom: 30px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .filter-section {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="dashboard-container">
+    <h2>Dashboard ข้อมูลการขาย</h2>
+
+    <div class="filter-section">
+        <select id="monthFilter" class="form-control" style="width: 200px;">
+            <option value="1">มกราคม 2024</option>
+            <option value="2">กุมภาพันธ์ 2024</option>
+            <option value="3">มีนาคม 2024</option>
+            <option value="4">เมษายน 2024</option>
+            <option value="5">พฤษภาคม 2024</option>
+            <option value="6">มิถุนายน 2024</option>
+            <option value="7">กรกฎาคม 2024</option>
+            <option value="8">สิงหาคม 2024</option>
+            <option value="9">กันยายน 2024</option>
+            <option value="10">ตุลาคม 2024</option>
+            <option value="11">พฤศจิกายน 2024</option>
+            <option value="12">ธันวาคม 2024</option>
+        </select>
+    </div>
+
+    <div class="flex flex-row">
+        <div class="chart-container w-[50%]">
+            <h4>ยอดขายรวมรายเดือน</h4>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <div class="chart-container w-[50%]">
+            <h4>สินค้าขายดี Top 5</h4>
+            <canvas id="bestSellersChart"></canvas>
+        </div>
+    </div>
+
+    <div class="flex flex-row">
+        <div class="chart-container w-[50%]">
+            <h4>สินค้าแนวโน้มมาแรง</h4>
+            <canvas id="trendingChart"></canvas>
+        </div>
+
+        <div class="chart-container w-[50%]">
+            <h4>สินค้าที่ขายได้น้อย</h4>
+            <canvas id="lowSalesChart"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const monthlyData = {
+            labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.'],
+            data: [45000, 52000, 49000, 60000, 55000, 58000]
+        };
+
+        const topProducts = {
+            labels: ['สินค้า A', 'สินค้า B', 'สินค้า C', 'สินค้า D', 'สินค้า E'],
+            data: [500, 450, 400, 350, 300]
+        };
+
+        const trendingProducts = {
+            labels: ['สินค้า X', 'สินค้า Y', 'สินค้า Z', 'สินค้า W', 'สินค้า V'],
+            data: [150, 120, 100, 90, 80]
+        };
+
+        const lowSalesProducts = {
+            labels: ['สินค้า M', 'สินค้า N', 'สินค้า O', 'สินค้า P', 'สินค้า Q'],
+            data: [10, 15, 20, 25, 30]
+        };
+
+        new Chart(document.getElementById('salesChart'), {
+            type: 'line',
+            data: {
+                labels: monthlyData.labels,
+                datasets: [{
+                    label: 'ยอดขาย (บาท)',
+                    data: monthlyData.data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('bestSellersChart'), {
+            type: 'bar',
+            data: {
+                labels: topProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้ (ชิ้น)',
+                    data: topProducts.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('trendingChart'), {
+            type: 'bar',
+            data: {
+                labels: trendingProducts.labels,
+                datasets: [{
+                    label: 'อัตราการเติบโต (%)',
+                    data: trendingProducts.data,
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)'
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('lowSalesChart'), {
+            type: 'bar',
+            data: {
+                labels: lowSalesProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้ (ชิ้น)',
+                    data: lowSalesProducts.data,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)'
+                }]
+            }
+        });
+
+        document.getElementById('monthFilter').addEventListener('change', function() {
+            alert('เลือกเดือน: ' + this.value);
+        });
+    </script>
+}
+
