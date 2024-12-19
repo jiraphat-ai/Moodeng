@@ -1,12 +1,10 @@
 ﻿@model List<Moodeng.Wishlist>
 
-@{
-    ViewBag.Title = "Your Wishlist";
-}
+@{ ViewBag.Title = "Your Wishlist"; }
 
 <style>
     body {
-        background: #eee;
+        background: #fff;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         font-size: 14px;
         color: #000;
@@ -17,37 +15,45 @@
         padding: 2rem;
     }
 
+    .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
     .wishlist-item {
         background: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 1.5rem;
         overflow: hidden;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         padding: 1rem;
+      
     }
 
         .wishlist-item img {
-            width: 150px;
+            width: 100%;
             height: 150px;
-            object-fit: cover;
+            object-fit: fill;
         }
 
     .wishlist-details {
         flex-grow: 1;
-        margin-left: 1rem;
+        margin-top: 1rem;
     }
 
+        .wishlist-details p {
+            margin: 0.5rem 0;
+        }
+
     .wishlist-actions {
+        margin-top: 1rem;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-end;
+        justify-content: space-between;
     }
 
         .wishlist-actions button {
-            margin-top: 1rem;
             padding: 0.5rem 1rem;
             background: #e91e63;
             color: white;
@@ -62,43 +68,34 @@
 </style>
 
 <div class="wishlist-container">
-    <h1>Your Wishlist</h1>
+    <h1 class="text-4xl font-bold mb-6 flex item items-center mt-10">Your Wishlist</h1>
 
     @if (Model.Any())
     {
-        foreach (var item in Model)
-        {
-            <div class="wishlist-item">
-                <img src="@item.Product.Picture" alt="@item.Product.ProductName" />
-                <div class="wishlist-details">
-                    <h3>@item.Product.ProductName</h3>
-                    <p>@item.Product.Description</p>
-                    <p><strong>Price:</strong> @item.Product.Price.ToString("C")</p>
-                </div>
-                <div class="wishlist-actions">
-                    <form method="post" action="@Url.Action("RemoveFromWishlist", "WishList")">
-                        <button type="submit" onclick="RemoveWishList(@item.WishlistId)">Remove from Wishlist</button>
-                    </form>
-                </div>
-            </div>
-        }
-    }
-    else
+<div class="wishlist-grid">
+    @foreach (var item in Model)
     {
-        <p>Your wishlist is empty.</p>
-    }
+<div class="wishlist-item">
+    <img src="@item.Product.Picture" alt="@item.Product.ProductName" />
+    <div class="wishlist-details ">
+        <h3 class="font-bold">@item.Product.ProductName</h3>
+        <p class="text-xl">@item.Product.Description</p>
+        <p><strong>Price:</strong> @item.Product.Price.ToString("C")</p>
+    </div>
+    <div class="wishlist-actions">
+        <form method="post" action="@Url.Action("AddToCart", "WishList")">
+            <button type="submit">Add to Cart</button>
+        </form>
+        <form method="post" action="@Url.Action("RemoveFromWishlist", "WishList")">
+            <button type="submit">Remove</button>
+        </form>
+    </div>
 </div>
 
-<script>
-
-
-
-    async function RemoveWishList(id) {
-        const add = await axios.post("@Url.Action("RemoveFromWishlist", "WishList")", { wishlistId: parseInt(id) });
-        if (add.status == 200) {
-            alert(add.data.message);
-        }
-
-
     }
-</script>
+</div>
+    }
+            else
+            {
+<p>Your wishlist is empty.</p>}
+</div>

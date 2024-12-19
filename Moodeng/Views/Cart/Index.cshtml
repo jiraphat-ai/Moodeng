@@ -3,48 +3,62 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
-    ViewBag.Title = "Your Cart";
-}
-<h2>Cart List</h2>
+
 
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
+    <h1 class="text-4xl font-bold mb-6 flex justify-between items-center mt-10">
+        <span>Shopping Cart</span>
+        <span class="text-4xl font-bold text-gray-600">@Model.Sum(i => i.Quantity) Items</span>
+    </h1>
     @if (Model.Any())
     {
-        <table class="table-auto w-full text-left border-collapse border border-gray-200">
+        <table class="table-auto w-full text-left border-collapse border border-gray-200 rounded-full text-center mt-10">
             <thead>
-                <tr class="bg-gray-100">
-                    <th class="border border-gray-200 px-4 py-2">Product</th>
-                    <th class="border border-gray-200 px-4 py-2">Quantity</th>
-                    <th class="border border-gray-200 px-4 py-2">Price</th>
-                    <th class="border border-gray-200 px-4 py-2">Total</th>
-                    <th class="border border-gray-200 px-4 py-2">Actions</th>
+                <tr class="bg-gray-100 ">
+                    <th class=" px-4 py-2">Product Details</th>
+                    <th class=" px-4 py-2 text-center">Quantity</th>
+                    <th class=" px-4 py-2 text-center">Price</th>
+                    <th class=" px-4 py-2 text-center">Total</th>
+                    <th class=" px-4 py-2 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td class="border border-gray-200 px-4 py-2">
-                        <img src="@item.Product.Picture" alt="@item.Product.ProductName" class="inline-block w-16 h-16 object-cover rounded-lg" />
-                        <span class="ml-4">@item.Product.ProductName</span>
+                <tr >
+                    <td class=" px-4 py-2 flex items-center">
+                        <img src="@item.Product.Picture" alt="@item.Product.ProductName" class="w-52 h-52 object-cover rounded-lg" />
+                        <div class="ml-4">
+                            <p class="text-2xl font-bold ext-left">@item.Product.ProductName</p>
+                            <p class="text-sm text-gray-500 text-left mt-2">Electronics</p>
+                        </div>
                     </td>
-                    <td class="border border-gray-200 px-4 py-2">
-                        <input type="number" min="1" value="@item.Quantity" class="w-16 text-center border rounded-lg" onchange="updateQuantity(@item.ProductId, this.value)" />
+                    <td class=" px-4 py-2 text-center">
+                        <div class="flex items-center justify-center">
+                            <button class="px-2 py-1 bg-gray-200 rounded" onclick="decreaseQuantity(@item.ProductId)">-</button>
+                            <input type="number" min="1" value="@item.Quantity" class="w-16 text-center border rounded-lg mx-2" onchange="updateQuantity(@item.ProductId, this.value)" />
+                            <button class="px-2 py-1 bg-gray-200 rounded" onclick="increaseQuantity(@item.ProductId)">+</button>
+                        </div>
                     </td>
-                    <td class="border border-gray-200 px-4 py-2">@item.Product.Price.ToString("C")</td>
-                    <td class="border border-gray-200 px-4 py-2">@((item.Product.Price * item.Quantity).ToString("C"))</td>
-                    <td class="border border-gray-200 px-4 py-2">
-                        <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="removeFromCart(@item.ProductId)">Remove</button>
+
+                    <td class=" px-4 py-2">@item.Product.Price.ToString("C")</td>
+                    <td class=" px-4 py-2">@((item.Product.Price * item.Quantity).ToString("C"))</td>
+                    <td class=" px-4 py-2">
+                        <button class="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full text-lg font-semibold hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out" onclick="removeFromCart(@item.ProductId)">
+                            <i class="fas fa-trash-alt mr-2"></i> Remove
+                        </button>
                     </td>
+
                 </tr>
                 }
             </tbody>
         </table>
-        <div class="text-right mt-6">
-            <h3 class="text-2xl font-bold">Total: @Model.Sum(i => i.Product.Price * i.Quantity).ToString("C")</h3>
-            <button id="proceedButton" class="bg-green-500 text-white px-8 py-3 rounded mt-4"> Proceed to Checkout </button>
+        <div class="text-right mt-10">
+            <h3 class="text-3xl font-bold">Total: @Model.Sum(i => i.Product.Price * i.Quantity).ToString("C")</h3>
+            <button id="proceedButton" class="bg-green-500 font-semibold text-white text-3xl px-12 py-4 rounded-lg mt-10 transition duration-300 ease-in-out hover:bg-green-600 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300 active:bg-green-700 shadow-lg">
+                Checkout
+            </button>
+
         </div>
     }
     else
@@ -72,6 +86,17 @@
         }
     }
 
-  
- 
+    function increaseQuantity(productId) {
+        let input = document.querySelector(`input[onchange="updateQuantity(${productId}, this.value)"]`);
+        input.value = parseInt(input.value) + 1;
+        updateQuantity(productId, input.value);
+    }
+
+    function decreaseQuantity(productId) {
+        let input = document.querySelector(`input[onchange="updateQuantity(${productId}, this.value)"]`);
+        if (input.value > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateQuantity(productId, input.value);
+        }
+    }
 </script>
