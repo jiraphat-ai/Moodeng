@@ -46,7 +46,46 @@ namespace Moodeng.Controllers
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
         }
+        // Method to add a product to the cart
+        [HttpPost]
+        public ActionResult AddToCart(int productId, int quantity = 1)
+        {
+            try
+            {
+                var product = db.Products.Find(productId);
+                if (product == null)
+                {
+                    return Json(new { success = false, message = "Product not found." });
+                }
 
-      
+                var userId = User.Identity.GetUserId();
+
+                var existingCartItem = db.Carts.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
+
+                if (existingCartItem != null)
+                {
+                    existingCartItem.Quantity += quantity;
+                }
+                else
+                {
+                    var cartItem = new Cart
+                    {
+                        UserId = userId,
+                        ProductId = productId,
+                        Quantity = quantity,
+                        AddedDate = DateTime.Now
+                    };
+
+                    db.Carts.Add(cartItem);
+                }
+
+                db.SaveChanges();
+                return Json(new { success = true, message = "Product added to cart successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
     }
 }
