@@ -1,43 +1,44 @@
 ﻿@model IEnumerable<Moodeng.Order>
 
-                    @{
-                        ViewBag.Title = "Track Orders";
-                        Layout = "~/Views/Shared/_Layout.cshtml";
-                    }
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-                    <h1>Your Orders</h1>
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">My Orders</h2>
 
-                   <div class="container mt-5">
     @if (!Model.Any())
     {
-        <p>You have not placed any orders yet.</p>
+        <p class="text-lg text-gray-600">You have not placed any orders yet.</p>
     }
     else
     {
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Total Amount</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var order in Model)
-                {
-                    <tr>
-                        <td>@order.OrderId</td>
-                        <td>@string.Format("{0:yyyy-MM-dd}", order.OrderDate)</td>
-                        <td>@order.OrderStatus</td>
-                        <td>@order.OrderDetails.Sum(od => od.TotalPrice)</td>
-                        <td>
-                            <a href="@Url.Action("OrderDetails", "TrackOrder", new { id = order.OrderId })" class="btn btn-primary">View Details</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <!-- Orders List -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var order in Model)
+            {
+                <div class="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between h-56">
+                    <div class="flex">
+                        <!-- Placeholder Image -->
+                        <img src="https://cdn-icons-png.freepik.com/256/756/756940.png?semt=ais_hybrid"
+                             alt="Order Image"
+                             class="w-100% h-36 object-cover rounded-md mr-4" />
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-gray-800 mt-2">Order ID: @order.OrderId</h3>
+                            <p class="text-lg text-gray-600 mt-2">Order Date: @string.Format("{0:yyyy-MM-dd}", order.OrderDate)</p>
+                            <p class="text-lg text-gray-600">Status: @order.OrderStatus</p>
+                            <p class="text-lg text-gray-600">Total Amount: $@order.OrderDetails.Sum(od => od.TotalPrice)</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-auto">
+                        <a href="@Url.Action("OrderDetails", "TrackOrder", new { id = order.OrderId })"
+                           class="px-4 py-2 bg-blue-500 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg active:scale-95 transition duration-200">
+                            Detail
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
     }
 </div>

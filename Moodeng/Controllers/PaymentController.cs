@@ -53,6 +53,7 @@ namespace Moodeng.Controllers
                         Quantity = item.Quantity,
                         UnitPrice = item.Product.Price,
                         TotalPrice = item.Product.Price * item.Quantity
+                     
                     };
                     db.OrderDetails.Add(orderDetail);
                 }

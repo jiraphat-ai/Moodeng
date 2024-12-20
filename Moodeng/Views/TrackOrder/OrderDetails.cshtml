@@ -1,23 +1,28 @@
-﻿
-@model Moodeng.Order
+﻿@model Moodeng.Order
 
 @{
     ViewBag.Title = "Order Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Order Details</h1>
+<h1 class="mb-4 text-2xl font-semibold" style="margin-left: 24px;">Order Details</h1>
+
 
 <div class="container mt-5">
-    <h3>Order ID: @Model.OrderId</h3>
-    <p>Order Date: @string.Format("{0:yyyy-MM-dd}", Model.OrderDate)</p>
-    <p>Status: @Model.OrderStatus</p>
-    <p>Total Amount: @Model.OrderDetails.Sum(od => od.TotalPrice)</p>
 
-    <h4>Items in this Order:</h4>
-    <table class="table table-bordered">
-        <thead>
+    <div class="order-summary mb-5">
+
+        <p><strong>Order Date:</strong> <span class="text-primary">@Model.OrderId</span>
+        <p><strong>Order Date:</strong> @string.Format("{0:yyyy-MM-dd}", Model.OrderDate)</p>
+        <p><strong>Status:</strong> <span class="badge bg-warning">@Model.OrderStatus</span></p>
+        <p><strong>Total Amount:</strong> <span class="text-success">@Model.OrderDetails.Sum(od => od.TotalPrice)</span></p>
+    </div>
+
+    <h4 class="mb-3">Items in this Order:</h4>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
+
                 <th>Product Name</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
@@ -28,6 +33,7 @@
             @foreach (var item in Model.OrderDetails)
             {
                 <tr>
+
                     <td>@item.ProductName</td>
                     <td>@item.Quantity</td>
                     <td>@item.UnitPrice.ToString("C")</td>
@@ -37,5 +43,58 @@
         </tbody>
     </table>
 
-    <a href="@Url.Action("Index", "TrackOrder")" class="btn btn-secondary">Back to Orders</a>
+    <div class=" mt-4 ">
+        <a href="@Url.Action("Index", "TrackOrder")" class="btn btn-secondary text-2xl font-semibold">Back to Orders</a>
+    </div>
 </div>
+
+<style>
+    .order-summary {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .order-product-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f2f2f2;
+    }
+
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+    .table-dark th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-primary {
+        color: #007bff;
+    }
+
+    .text-success {
+        color: #28a745;
+    }
+
+    .badge {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+</style>
