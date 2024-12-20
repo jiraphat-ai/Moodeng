@@ -36,15 +36,7 @@
                         @Html.ActionLink("HOME", "Index", "Home")
                     </li>
                 </ul>
-                <ul>
-                    <li><a href="#">PRODUCT</a></li>
-                </ul>
-                <ul>
-                    <li><a href="#">MENU</a></li>
-                </ul>
-                <ul>
-                    <li><a href="#">MENU</a></li>
-                </ul>
+                
 
 
             </div>
@@ -58,12 +50,21 @@
                     <form method="post" action="@Url.Action("Index", "Cart")">
                         <button type="submit" class="bg-transparent border-none cursor-pointer">
                             <i class="ri-shopping-cart-2-line text-4xl"></i>
-                            </button>
-                    </form></div>
+                        </button>
+                    </form>
+                </div>
                 <div class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
                     <form method="post" action="@Url.Action("Index", "WishList")">
                         <button type="submit" class="bg-transparent border-none cursor-pointer">
                             <i class="ri-heart-line text-4xl"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="size-[4rem] rounded-full bg-[#EEEEEE] grid place-items-center cursor-pointer">
+                    <form method="get" action="@Url.Action("Index", "TrackOrder")">
+                        <button type="submit" class="bg-transparent border-none cursor-pointer">
+                            <i class="ri-file-list-line text-4xl"></i>
                         </button>
                     </form>
                 </div>

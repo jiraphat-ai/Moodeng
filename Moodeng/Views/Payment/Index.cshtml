@@ -123,6 +123,7 @@
                 const response = await axios.post("@Url.Action("AddToOrder", "Payment")");
                 if (response.status === 200) {
                     alert(response.data.message);
+                    window.location.href = "@Url.Action("Index","TrackOrder")";
                 }
             } catch (error) {
                 alert("An error occurred: " + error.message);

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Moodeng.Order>
+
+                    @{
+                        ViewBag.Title = "Track Orders";
+                        Layout = "~/Views/Shared/_Layout.cshtml";
+                    }
+
+                    <h1>Your Orders</h1>
+
+                   <div class="container mt-5">
+    @if (!Model.Any())
+    {
+        <p>You have not placed any orders yet.</p>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Total Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@string.Format("{0:yyyy-MM-dd}", order.OrderDate)</td>
+                        <td>@order.OrderStatus</td>
+                        <td>@order.OrderDetails.Sum(od => od.TotalPrice)</td>
+                        <td>
+                            <a href="@Url.Action("OrderDetails", "TrackOrder", new { id = order.OrderId })" class="btn btn-primary">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
