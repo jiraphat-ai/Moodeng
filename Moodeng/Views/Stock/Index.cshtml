@@ -1,0 +1,329 @@
+﻿@{
+    ViewBag.Title = "Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4 min-h-[75vh]">
+    <div class="flex space-x-4 items-center mb-4">
+        <h2 class="text-3xl font-bold">Stock</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ Add Stock</a>
+    </div>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="#instock">IN STOCK</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#outstock">OUT OF STOCK</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="instock" class="tab-pane active">
+            <table class="table" id="stockTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>CURRENT INVENTORY</th>
+                        <th>COST/UNIT</th>
+                        <th>SELL/UNIT</th>
+                        <th>QUANTITY</th>
+                        <th>CATEGORY</th>
+                        <th>REORDER LEVEL</th>
+                        <th>STATUS STOCK</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="outstock" class="tab-pane">
+            <table class="table" id="outstockTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>CURRENT INVENTORY</th>
+                        <th>COST/UNIT</th>
+                        <th>SELL/UNIT</th>
+                        <th>QUANTITY</th>
+                        <th>CATEGORY</th>
+                        <th>REORDER LEVEL</th>
+                        <th>STATUS STOCK</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal สำหรับเติม Stock -->
+<div class="modal fade" id="restockModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">เติม Stock</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">ชื่อสินค้า: <span id="productName"></span></label>
+                </div>
+                <div class="mb-3">
+                    <label for="restockQuantity" class="form-label">จำนวนที่ต้องการเติม:</label>
+                    <input type="number" class="form-control" id="restockQuantity" min="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" id="confirmRestock">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- เพิ่ม Modal สำหรับแก้ไขข้อมูล -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">แก้ไขข้อมูลสินค้า</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editProductIndex">
+                <div class="mb-3">
+                    <label for="editName" class="form-label">ชื่อสินค้า:</label>
+                    <input type="text" class="form-control" id="editName">
+                </div>
+                <div class="mb-3">
+                    <label for="editCostPerUnit" class="form-label">ราคาทุนต่อหน่วย:</label>
+                    <input type="number" class="form-control" id="editCostPerUnit" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="editSellPerUnit" class="form-label">ราคาขายต่อหน่วย:</label>
+                    <input type="number" class="form-control" id="editSellPerUnit" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="editQuantity" class="form-label">จำนวน:</label>
+                    <input type="number" class="form-control" id="editQuantity" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="editCategory" class="form-label">หมวดหมู่:</label>
+                    <input type="text" class="form-control" id="editCategory">
+                </div>
+                <div class="mb-3">
+                    <label for="editReorderLevel" class="form-label">ระดับการสั่งซื้อใหม่:</label>
+                    <input type="number" class="form-control" id="editReorderLevel" min="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-primary" id="confirmEdit">บันทึก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const stockData = [
+            {
+                name: "สินค้า A",
+                costPerUnit: 100,
+                sellPerUnit: 150,
+                quantity: 50,
+                category: "อาหาร",
+                reorderLevel: 10,
+                statusStock: "IN STOCK"
+            },
+            {
+                name: "สินค้า B",
+                costPerUnit: 200,
+                sellPerUnit: 300,
+                quantity: 30,
+                category: "เครื่องดื่ม",
+                reorderLevel: 5,
+                statusStock: "IN STOCK"
+            },
+            {
+                name: "สินค้า C",
+                costPerUnit: 150,
+                sellPerUnit: 250,
+                quantity: 0,
+                category: "ขนม",
+                reorderLevel: 15,
+                statusStock: "OUT OF STOCK"
+            },
+            {
+                name: "สินค้า D",
+                costPerUnit: 80,
+                sellPerUnit: 120,
+                quantity: 0,
+                category: "เครื่องดื่ม",
+                reorderLevel: 20,
+                statusStock: "OUT OF STOCK"
+            },
+            {
+                name: "สินค้า E",
+                costPerUnit: 300,
+                sellPerUnit: 450,
+                quantity: 0,
+                category: "อาหาร",
+                reorderLevel: 8,
+                statusStock: "OUT OF STOCK"
+            }
+        ];
+
+        $(document).ready(function() {
+            $('.nav-tabs a').click(function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+            function renderStockTable(status) {
+                const tbody = $(`#${status === "IN STOCK" ? 'stockTable' : 'outstockTable'} tbody`);
+                tbody.empty();
+
+                stockData
+                    .filter(item => item.statusStock === status)
+                    .forEach((item) => {
+                        // หา index ที่แท้จริงจาก stockData array
+                        const realIndex = stockData.findIndex(x => x.name === item.name);
+                        tbody.append(`
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>${item.name}</td>
+                                <td>${item.costPerUnit}</td>
+                                <td>${item.sellPerUnit}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.category}</td>
+                                <td>${item.reorderLevel}</td>
+                                <td>${item.statusStock}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm edit-btn me-2" 
+                                            data-index="${realIndex}">
+                                        แก้ไข
+                                    </button>
+                                    ${status === "OUT OF STOCK" ? 
+                                        `<button class="btn btn-success btn-sm restock-btn" 
+                                                data-product-name="${item.name}">
+                                            เติม Stock
+                                        </button>` : 
+                                        ''}
+                                </td>
+                            </tr>
+                        `);
+                    });
+            }
+
+            renderStockTable("IN STOCK");
+
+            $('.nav-tabs a').on('shown.bs.tab', function(e) {
+                const status = $(e.target).attr('href') === '#instock' ? "IN STOCK" : "OUT OF STOCK";
+                renderStockTable(status);
+            });
+
+            // จัดการการคลิกปุ่มเติม stock
+            $(document).on('click', '.restock-btn', function() {
+                const productName = $(this).data('product-name');
+                $('#productName').text(productName);
+                $('#restockModal').modal('show');
+            });
+
+            // เพิ่ม handler สำหรับปุ่มยกเลิก
+            $('.btn-close, .btn-secondary').click(function() {
+                $('#restockModal').modal('hide');
+                $('#restockQuantity').val('');
+            });
+
+            // จัดการการยืนยันเติม stock
+            $('#confirmRestock').click(function() {
+                const productName = $('#productName').text();
+                const quantity = parseInt($('#restockQuantity').val());
+
+                if (quantity > 0) {
+                    // หาและอัพเดทข้อมูลสินค้า
+                    const productIndex = stockData.findIndex(item => item.name === productName);
+                    if (productIndex !== -1) {
+                        stockData[productIndex].quantity = quantity;
+                        stockData[productIndex].statusStock = "IN STOCK";
+                        
+                        // รีเฟรชตารางทั้งสอง
+                        renderStockTable("IN STOCK");
+                        renderStockTable("OUT OF STOCK");
+                        
+                        // ปิด modal
+                        $('#restockModal').modal('hide');
+                        $('#restockQuantity').val('');
+                        
+                        // แสดงข้อความแจ้งเตือน
+                        alert('เติม Stock เรียบร้อยแล้ว');
+                    }
+                } else {
+                    alert('กรุณาระบุจำนวนที่ต้องการเติม');
+                }
+            });
+
+            // จัดการการคลิกปุ่มแก้ไข
+            $(document).on('click', '.edit-btn', function() {
+                const index = $(this).data('index');
+                const item = stockData[index];
+                
+                // เก็บ index ไว้อ้างอิงตอนบันทึก
+                $('#editProductIndex').val(index);
+                
+                // กำหนดค่าเริ่มต้นให้ form
+                $('#editName').val(item.name);
+                $('#editCostPerUnit').val(item.costPerUnit);
+                $('#editSellPerUnit').val(item.sellPerUnit);
+                $('#editQuantity').val(item.quantity);
+                $('#editCategory').val(item.category);
+                $('#editReorderLevel').val(item.reorderLevel);
+                
+                $('#editModal').modal('show');
+            });
+
+            // จัดการการบันทึก��ารแก้ไข
+            $('#confirmEdit').click(function() {
+                const index = $('#editProductIndex').val();
+                const quantity = parseInt($('#editQuantity').val());
+                
+                if (quantity < 0) {
+                    alert('จำนวนสินค้าต้องไม่ติดลบ');
+                    return;
+                }
+
+                // อัพเดทข้อมูล
+                stockData[index] = {
+                    name: $('#editName').val(),
+                    costPerUnit: parseFloat($('#editCostPerUnit').val()),
+                    sellPerUnit: parseFloat($('#editSellPerUnit').val()),
+                    quantity: quantity,
+                    category: $('#editCategory').val(),
+                    reorderLevel: parseInt($('#editReorderLevel').val()),
+                    statusStock: quantity > 0 ? "IN STOCK" : "OUT OF STOCK"
+                };
+
+                // รีเฟรชตารางทั้งสอง
+                renderStockTable("IN STOCK");
+                renderStockTable("OUT OF STOCK");
+
+                // ปิด modal
+                $('#editModal').modal('hide');
+                
+                // แสดงข้อความแจ้งเตือน
+                alert('บันทึกการแก้ไขเรียบร้อยแล้ว');
+            });
+
+            // เพิ่ม handler สำหรับปุ่มยกเลิกของ modal แก้ไข
+            $('#editModal .btn-close, #editModal .btn-secondary').click(function() {
+                $('#editModal').modal('hide');
+            });
+        });
+    </script>
+}
+

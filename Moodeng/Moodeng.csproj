@@ -214,6 +214,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProductViewModel.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TrackOrderController.cs" />
     <Compile Include="Controllers\WishListController.cs" />
     <Compile Include="C__MigrationHistory.cs">
@@ -353,6 +354,8 @@
     <Content Include="Views\AdminDashboard\Index.cshtml" />
     <Content Include="Views\TrackOrder\Index.cshtml" />
     <Content Include="Views\TrackOrder\OrderDetails.cshtml" />
+    <Content Include="Views\Stock\Index.cshtml" />
+    <Content Include="Views\Stock\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
