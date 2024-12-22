@@ -30,8 +30,14 @@ namespace Moodeng.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 cartItems = db.Carts
-               .Where(c => c.UserId == userId)
-               .ToList();
+                   .Where(c => c.UserId == userId)
+                   .ToList();
+
+                // คำนวณ total amount รวมภาษี
+                decimal subtotal = cartItems.Sum(i => i.Product.Price * i.Quantity);
+                decimal tax = subtotal / 10; // 10% tax
+                decimal totalAmount = subtotal + tax;
+
                 Order order = new Order
                 {
                     OrderDate = DateTime.Now,
@@ -40,10 +46,10 @@ namespace Moodeng.Controllers
                     RetailStoreId = 4,
                     Payment = "on delivery",
                     PaymentStatus = 0,
+                    TotalAmount = totalAmount // เพิ่ม total amount
                 };
 
                 var res = db.Orders.Add(order);
-
                 foreach (Cart item in cartItems)
                 {
                     OrderDetail orderDetail = new OrderDetail
@@ -53,19 +59,17 @@ namespace Moodeng.Controllers
                         Quantity = item.Quantity,
                         UnitPrice = item.Product.Price,
                         TotalPrice = item.Product.Price * item.Quantity
-                     
                     };
                     db.OrderDetails.Add(orderDetail);
                 }
                 db.Carts.RemoveRange(cartItems);
                 db.SaveChanges();
-                return Json(new { success = true, message = "Product added to cart successfully!" });
+                return Json(new { success = true, message = "Order created successfully!" });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = "An error occurred: " + ex.Message });
             }
-
         }
     }
 }
