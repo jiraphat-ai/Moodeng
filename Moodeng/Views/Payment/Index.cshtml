@@ -9,17 +9,18 @@
         <div class="col-md-8">
             <div class="card p-4 mb-4 border">
                 <h3 class="mb-3 font-semibold">Review Item And Shipping</h3>
-                <div class="row">
+                <div class="grid grid-cols-3 gap-3">
                     @foreach (var item in Model)
                     {
-        <div class="col-md-4 mb-4 d-flex flex-column align-items-center">
-            <div class="card h-100 text-center p-3">
+        <div class="cols-span-1 border rounded-md">
+            <div class="p-3">
                 <div class="d-flex align-items-center">
                     <img src="@item.Product.Picture" alt="Product Image" class="product-image me-2" />
                     <div class="product-details text-start">
                         <h5 class="mb-1">@item.Product.ProductName</h5>
                         <p class="mb-1">Quantity: @item.Quantity</p>
                         <h5 class="mb-0">Price: @item.Product.Price.ToString("C")</h5>
+                        <h5>Total: @(item.Product.Price * item.Quantity)</h5>
                     </div>
                 </div>
             </div>
@@ -31,7 +32,7 @@
         <div class="col-md-4">
             <div class="card p-4">
                 <h3 class=" font-semibold">Order Summary</h3>
-                <h5 class="mb-3">Subtotal: <span class="float-end ">@Model.Sum(i => i.Product.Price * i.Quantity).ToString("C")</span></h5>
+                <h5 class="mb-3">Subtotal: <span class="float-end ">@Model.Sum(i => i.Product.Price * i.Quantity)</span></h5>
                 <h5 class="mb-3">Tax (10%): <span class="float-end">@(Model.Sum(i => i.Product.Price * i.Quantity)/10)</span></h5>
                 <h5 class="mb-3">Shipping: <span class="float-end">$0.00</span></h5>
                 <h4 class="mb-3">Total: <span class="float-end">@(-Model.Sum(i => i.Product.Price * i.Quantity)/10 +@Model.Sum(i => i.Product.Price * i.Quantity))</span></h4>
@@ -43,7 +44,7 @@
                         <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
                     </div>
 
-                    <!-- จัดปุ่มตรงกลางโดยใช้ d-flex justify-content-center -->
+              
                     <div class=" flex justify-center mt-10">
                         <button type="submit" id="payButton" class="btn btn-primary w-75 mx-auto " onclick="addToOrder()">
                             Pay $@((-Model.Sum(i => i.Product.Price * i.Quantity)/10 + Model.Sum(i => i.Product.Price * i.Quantity)).ToString("F2"))
@@ -100,17 +101,16 @@
 </div>
 
 <script>
-    async function addToOrder() {
-        try {
-            const response = await axios.post("@Url.Action("AddToOrder", "Payment")");
-            if (response.status === 200) {
-                alert(response.data.message);
-                window.location.href = "@Url.Action("Index","TrackOrder")";
+     async function addToOrder() {
+            try {
+                const response = await axios.post("@Url.Action("AddToOrder", "Payment")");
+                if (response.status === 200) {
+                    alert(response.data.message);
+                }
+            } catch (error) {
+                alert("An error occurred: " + error.message);
             }
-        } catch (error) {
-            alert("An error occurred: " + error.message);
         }
-    }
 
     document.addEventListener("DOMContentLoaded", () => {
         const paymentForm = document.getElementById("paymentForm");
