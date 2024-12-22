@@ -1,0 +1,229 @@
+﻿@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container min-h-[80vh] mx-auto px-4">
+    <!-- Filter Section -->
+    <div class="flex gap-8">
+        <div class="w-64">
+            <h3 class="font-medium mb-4">Filter</h3>
+            
+            <!-- Categories -->
+            <div class="mb-6 border-t pt-4">
+                <h4 class="font-medium mb-3">CATEGORIES</h4>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Electronics
+                        <span class="text-gray-500 text-sm">(2)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Clothing
+                        <span class="text-gray-500 text-sm">(2)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Food & Beverages
+                        <span class="text-gray-500 text-sm">(2)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Books
+                        <span class="text-gray-500 text-sm">(1)</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Furniture
+                        <span class="text-gray-500 text-sm">(1)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sub Categories -->
+            <div class="mb-6 border-t pt-4">
+                <h4 class="font-medium mb-3">SUB CATEGORIES</h4>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Smartphones
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Laptops
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Tops
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Bottoms
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> Groceries
+                    </label>
+                </div>
+            </div>
+
+            <!-- Price Range -->
+            <div class="mb-6 border-t pt-4">
+                <h4 class="font-medium mb-3">PRICE RANGE</h4>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="price"> Under $20
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="price"> $20 - $50
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="price"> $50 - $100
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="price"> $100 - $500
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="price"> Above $500
+                    </label>
+                </div>
+            </div>
+
+            <!-- Availability -->
+            <div class="mb-6 border-t pt-4">
+                <h4 class="font-medium mb-3">AVAILABILITY</h4>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> In Stock
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> On Sale
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox"> New Arrivals
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="flex-1">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex gap-4">
+                    <button class="px-4 py-2 bg-red-500 text-white rounded-md">Product</button>
+                    <button class="px-4 py-2 text-gray-600">Store</button>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <select class="w-full border rounded-md px-3 py-2">
+                        <option>Best Match</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Most Popular</option>
+                        <option>Best Selling</option>
+                    </select>
+                    <select class="border rounded-md px-3 py-2">
+                        <option>Reviews</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-4 gap-4">
+                @foreach (dynamic product in GetMockProducts())
+                {
+                    <div class="col-span-1 bg-white rounded-2xl overflow-hidden drop-shadow-md pb-4">
+                        <div class="bg-[#F5F5F5] rounded-lg overflow-hidden relative">
+                            <img src="@product.ImageUrl" alt="@product.Name" class="w-full h-[16rem] object-contain" />
+
+                            <div class="size-[3.5rem] flex items-center justify-center bg-white rounded-full absolute top-3 right-3 cursor-pointer shadow-md">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <button id="addW" onclick="addWishList(@product.ProductId)" class="ri-heart-line text-4xl font-light"></button>
+                            </div>
+
+                            <a href="@Url.Action("Details", "Home", new { id = product.ProductId })" class="size-[3.5rem] flex items-center justify-center bg-white shadow-md rounded-full absolute top-20 right-3 cursor-pointer">
+                                <i class="ri-eye-line text-4xl font-light"></i>
+                            </a>
+                        </div>
+                        <div class="px-4 mt-3">
+                            <div class="flex flex-col items-start bg-white">
+                                <p class="text-2xl font-semibold">@product.Name</p>
+                                <p class="text-xl font-semibold">Rp @product.Price.ToString("N0")</p>
+                            </div>
+                            <p class="text-xl">@product.Description</p>
+                            <div class="mt-4 flex justify-center">
+                                <button class="px-12 py-3 border border-[#F5F5F5] transition-all duration-300 drop-shadow-md text-[#003D29] rounded-full hover:bg-[#F5F5F5]" onclick="addToCart(@product.ProductId)">
+                                    Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public List<object> GetMockProducts()
+    {
+        return new List<object>
+        {
+            new {
+                ProductId = 1,
+                Name = "Smartphone",
+                Description = "test",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 699.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 2,
+                Name = "Laptop",
+                Description = "test",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 999.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 3,
+                Name = "T-shirt",
+                Description = "test",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 19.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 4,
+                Name = "Jeans",
+                Description = "test",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 49.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 5,
+                Name = "Milk",
+                Description = "test",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 2.49m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 6,
+                Name = "Bread",
+                Description = "testw",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 1.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 7,
+                Name = "Novel - The Great Story",
+                Description = "testszxv",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 15.99m,
+                SoldCount = 0
+            },
+            new {
+                ProductId = 8,
+                Name = "Wooden Desk",
+                Description = "kefgvcle,rfcgvl",
+                ImageUrl = "https://media.studio7thailand.com/152212/TH_MacBook_Air_13-inch_M2_Space_Gray_PDP_Image_Position-3-square_medium.jpg",
+                Price = 120.00m,
+                SoldCount = 0
+            }
+        };
+    }
+}
+
