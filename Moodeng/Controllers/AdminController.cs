@@ -20,7 +20,7 @@ namespace Moodeng.Controllers
             }
             return View();
         }
-        public ActionResult Dashboard()
+        public ActionResult ManageUser()
         {
             return View();
         }

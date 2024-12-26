@@ -1,9 +1,254 @@
-﻿@model Moodeng.Address
-
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Mock Data สำหรับกราฟ
+    var monthlyData = new
+    {
+        labels = new[] { "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย." },
+        data = new[] { 45000, 52000, 49000, 60000, 55000, 58000 }
+    };
+
+    var topProducts = new
+    {
+        labels = new[] { "สินค้า A", "สินค้า B", "สินค้า C", "สินค้า D", "สินค้า E" },
+        data = new[] { 500, 450, 400, 350, 300 }
+    };
+
+    var trendingProducts = new
+    {
+        labels = new[] { "สินค้า X", "สินค้า Y", "สินค้า Z", "สินค้า W", "สินค้า V" },
+        data = new[] { 150, 120, 100, 90, 80 }
+    };
+
+    var lowSalesProducts = new
+    {
+        labels = new[] { "สินค้า M", "สินค้า N", "สินค้า O", "สินค้า P", "สินค้า Q" },
+        data = new[] { 10, 15, 20, 25, 30 }
+    };
+
+    // Mock Data สำหรับ Stats Cards
+    ViewBag.TotalUsers = 156;
+    ViewBag.TotalStores = 42;
+    ViewBag.TodayOrders = 25;
+
+    // Mock Data สำหรับ Recent Activities
+    var recentActivities = new[]
+    {
+        new { Icon = "🔵", Description = "ผู้ใช้ใหม่ลงทะเบียน", TimeAgo = "2 นาทีที่แล้ว" },
+        new { Icon = "🟢", Description = "ร้านค้าใหม่เพิ่ม", TimeAgo = "15 นาทีที่แล้ว" },
+        new { Icon = "🔴", Description = "รายงานปัญหา", TimeAgo = "1 ชั่วโมงที่แล้ว" },
+        new { Icon = "🔵", Description = "ผู้ใช้อัพเดทโปรไฟล์", TimeAgo = "2 ชั่วโมงที่แล้ว" },
+        new { Icon = "🟡", Description = "คำสั่งซื้อใหม่", TimeAgo = "3 ชั่วโมงที่แล้ว" }
+    };
 }
 
-<h2>Admin จ้า</h2>
+<div class="min-h-screen bg-gray-50 p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-8">Admin Dashboard</h2>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-600 rounded-full">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-white text-sm">ผู้ใช้ทั้งหมด</p>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalUsers</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-600 rounded-full">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-white text-sm">ร้านค้าทั้งหมด</p>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalStores</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-600 rounded-full">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-white text-sm">ออเดอร์วันนี้</p>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TodayOrders</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts & Activities -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Monthly Sales Chart -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">ยอดขายรายเดือน</h3>
+            <div class="h-80">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">กิจกรรมล่าสุด</h3>
+            <div class="space-y-4">
+                @foreach (var activity in recentActivities)
+                {
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200">
+                        <span class="text-2xl">@activity.Icon</span>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-800">@activity.Description</p>
+                            <p class="text-xs text-gray-500">@activity.TimeAgo</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Charts -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">สินค้าขายดี</h3>
+            <div class="h-64">
+                <canvas id="topProductsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">สินค้าแนะนำ</h3>
+            <div class="h-64">
+                <canvas id="trendingProductsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">สินค้าขายช้า</h3>
+            <div class="h-64">
+                <canvas id="lowSalesChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // แปลง C# array เป็น JavaScript object
+        const monthlyData = {
+            labels: @Html.Raw(Json.Encode(monthlyData.labels)),
+            data: @Html.Raw(Json.Encode(monthlyData.data))
+        };
+
+        const topProducts = {
+            labels: @Html.Raw(Json.Encode(topProducts.labels)),
+            data: @Html.Raw(Json.Encode(topProducts.data))
+        };
+
+        const trendingProducts = {
+            labels: @Html.Raw(Json.Encode(trendingProducts.labels)),
+            data: @Html.Raw(Json.Encode(trendingProducts.data))
+        };
+
+        const lowSalesProducts = {
+            labels: @Html.Raw(Json.Encode(lowSalesProducts.labels)),
+            data: @Html.Raw(Json.Encode(lowSalesProducts.data))
+        };
+
+        // สร้างกราฟยอดขายรายเดือน
+        new Chart(document.getElementById('monthlyChart'), {
+            type: 'line',
+            data: {
+                labels: monthlyData.labels,
+                datasets: [{
+                    label: 'ยอดขาย (บาท)',
+                    data: monthlyData.data,
+                    borderColor: '#3b82f6',
+                    tension: 0.3,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // สร้างกราฟสินค้าขายดี
+        new Chart(document.getElementById('topProductsChart'), {
+            type: 'bar',
+            data: {
+                labels: topProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้',
+                    data: topProducts.data,
+                    backgroundColor: '#22c55e'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // สร้างกราฟสินค้าแนะนำ
+        new Chart(document.getElementById('trendingProductsChart'), {
+            type: 'doughnut',
+            data: {
+                labels: trendingProducts.labels,
+                datasets: [{
+                    data: trendingProducts.data,
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#22c55e',
+                        '#eab308',
+                        '#ef4444',
+                        '#8b5cf6'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // สร้างกราฟสินค้าขายช้า
+        new Chart(document.getElementById('lowSalesChart'), {
+            type: 'bar',
+            data: {
+                labels: lowSalesProducts.labels,
+                datasets: [{
+                    label: 'จำนวนที่ขายได้',
+                    data: lowSalesProducts.data,
+                    backgroundColor: '#ef4444'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+}
 
