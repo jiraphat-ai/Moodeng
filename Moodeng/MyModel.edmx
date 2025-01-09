@@ -80,6 +80,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Cart">
           <Key>
@@ -153,7 +154,7 @@
           <Property Name="OrderDate" Type="datetime" />
           <Property Name="OrderStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Payment" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Payment" Type="varchar" MaxLength="100" />
           <Property Name="PaymentStatus" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
@@ -166,6 +167,7 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Picture" Type="nvarchar(max)" />
           <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="RetailId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="RetailStores">
           <Key>
@@ -570,6 +572,7 @@
           <NavigationProperty Name="Carts" Relationship="Model.FK_Cart_AspNetUsers" FromRole="AspNetUser" ToRole="Cart" />
           <NavigationProperty Name="Wishlists" Relationship="Model.FK_Wishlist_AspNetUsers" FromRole="AspNetUser" ToRole="Wishlist" />
           <NavigationProperty Name="Addresses" Relationship="Model.FK_Address_Customers" FromRole="AspNetUser" ToRole="Address" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -642,7 +645,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="AspNetUsers" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
           <NavigationProperty Name="RetailStore" Relationship="Self.FK_Orders_RetailStores" FromRole="Orders" ToRole="RetailStores" />
-          <Property Name="Payment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Payment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PaymentStatus" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
@@ -658,6 +661,7 @@
           <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Carts" Relationship="Model.FK_Cart_Products" FromRole="Product" ToRole="Cart" />
           <NavigationProperty Name="Wishlists" Relationship="Model.FK_Wishlist_Products" FromRole="Product" ToRole="Wishlist" />
+          <Property Name="RetailId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="RetailStore">
           <Key>
@@ -1045,6 +1049,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Model.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -1134,6 +1139,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="Model.Product">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="RetailId" ColumnName="RetailId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
