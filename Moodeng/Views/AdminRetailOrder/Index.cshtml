@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Views/AdminRetail/OrderManagement.cshtml -->
+
+<div class="container mx-auto px-4 min-h-[100vh]">
+    <!-- หัวข้อหลัก -->
+    <h2 class="text-2xl font-semibold mb-6">จัดการออเดอร์</h2>
+
+    <!-- ส่วนค้นหาและกรอง -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <input type="text" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="ค้นหาเลขออเดอร์...">
+            </div>
+            <div>
+                <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">สถานะการจัดส่งทั้งหมด</option>
+                    <option value="pending">รอดำเนินการ</option>
+                    <option value="processing">กำลังจัดส่ง</option>
+                    <option value="delivered">จัดส่งแล้ว</option>
+                    <option value="cancelled">ยกเลิก</option>
+                </select>
+            </div>
+            <div>
+                <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">สถานะการชำระเงินทั้งหมด</option>
+                    <option value="paid">ชำระแล้ว</option>
+                    <option value="pending">รอชำระ</option>
+                    <option value="failed">ชำระไม่สำเร็จ</option>
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">ค้นหา</button>
+                <button class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">รีเซ็ต</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ตารางแสดงรายการออเดอร์ -->
+    <div class="bg-white rounded-lg shadow-md">
+        <div class="overflow-x-auto">
+            <table class="min-w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">เลขออเดอร์</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">วันที่สั่งซื้อ</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อลูกค้า</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ยอดรวม</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สถานะการจัดส่ง</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สถานะการชำระเงิน</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การดำเนินการ</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">ORD001</td>
+                        <td class="px-6 py-4 whitespace-nowrap">2024-02-20</td>
+                        <td class="px-6 py-4 whitespace-nowrap">คุณสมชาย ใจดี</td>
+                        <td class="px-6 py-4 whitespace-nowrap">฿1,500.00</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                รอดำเนินการ
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                ชำระแล้ว
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 mr-2" onclick="openModal('orderDetailModal')">
+                                รายละเอียด
+                            </button>
+                            <button class="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600" onclick="openModal('updateStatusModal')">
+                                อัพเดทสถานะ
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div class="flex-1 flex justify-end">
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        Previous
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">
+                        1
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        2
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        3
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        Next
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal รายละเอียดออเดอร์ -->
+<div id="orderDetailModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+    <div class="relative top-[150px] mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center pb-3">
+            <h5 class="text-lg font-semibold">รายละเอียดออเดอร์ #ORD001</h5>
+            <button onclick="closeModal('orderDetailModal')" class="text-gray-400 hover:text-gray-500">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <!-- ข้อมูลลูกค้า -->
+            <div class="mb-6">
+                <h6 class="font-semibold mb-2">ข้อมูลลูกค้า</h6>
+                <p class="text-gray-600">
+                    ชื่อ: คุณสมชาย ใจดี<br>
+                    โทร: 081-234-5678<br>
+                    ที่อยู่: 123 ถ.สุขุมวิท แขวงคลองเตย เขตคลองเตย กรุงเทพฯ 10110
+                </p>
+            </div>
+
+            <!-- รายการสินค้า -->
+            <h6 class="font-semibold mb-2">รายการสินค้า</h6>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">สินค้า</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">จำนวน</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ราคาต่อชิ้น</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">รวม</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4">สินค้า A</td>
+                        <td class="px-6 py-4">2</td>
+                        <td class="px-6 py-4">฿500.00</td>
+                        <td class="px-6 py-4">฿1,000.00</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">สินค้า B</td>
+                        <td class="px-6 py-4">1</td>
+                        <td class="px-6 py-4">฿500.00</td>
+                        <td class="px-6 py-4">฿500.00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="px-6 py-4 text-right font-semibold">ยอดรวมทั้งสิ้น:</td>
+                        <td class="px-6 py-4 font-semibold">฿1,500.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal อัพเดทสถานะ -->
+<div id="updateStatusModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+    <div class="relative top-[150px] mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center pb-3">
+            <h5 class="text-lg font-semibold">อัพเดทสถานะออเดอร์ #ORD001</h5>
+            <button onclick="closeModal('updateStatusModal')" class="text-gray-400 hover:text-gray-500">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">สถานะการจัดส่ง</label>
+                <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 border">
+                    <option value="pending">รอดำเนินการ</option>
+                    <option value="processing">กำลังจัดส่ง</option>
+                    <option value="delivered">จัดส่งแล้ว</option>
+                    <option value="cancelled">ยกเลิก</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">สถานะการชำระเงิน</label>
+                <select class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 border">
+                    <option value="paid">ชำระแล้ว</option>
+                    <option value="pending">รอชำระ</option>
+                    <option value="failed">ชำระไม่สำเร็จ</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">หมายเหตุ</label>
+                <textarea class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 border" rows="3"></textarea>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal('updateStatusModal')" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                    ยกเลิก
+                </button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    บันทึก
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+</script>
