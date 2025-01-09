@@ -213,6 +213,7 @@
     <Compile Include="Controllers\CartItemViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderRetailController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProductsRetailController.cs" />
     <Compile Include="Models\ProductCreateViewModel.cs" />
@@ -366,6 +367,8 @@
     <Content Include="Views\RetaillHome\Edit.cshtml" />
     <Content Include="Views\AdminRetail\Edit.cshtml" />
     <Content Include="Views\AdminRetail\Details.cshtml" />
+    <Content Include="Views\OrderRetail\Index.cshtml" />
+    <Content Include="Views\OrderRetail\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,51 @@
+@model Moodeng.Models.Order
+
+@{
+    ViewBag.Title = "รายละเอียดออเดอร์";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>รายละเอียดออเดอร์ #@Model.OrderId</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>ชื่อลูกค้า</dt>
+        <dd>@Model.Customer.UserName</dd>
+
+        <dt>วันที่สั่งซื้อ</dt>
+        <dd>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
+
+        <dt>สถานะ</dt>
+        <dd>@Model.OrderStatus</dd>
+
+        <dt>การชำระเงิน</dt>
+        <dd>@Model.Payment</dd>
+    </dl>
+
+    <h4>รายการสินค้า</h4>
+    <table class="table">
+        <tr>
+            <th>สินค้า</th>
+            <th>จำนวน</th>
+            <th>ราคาต่อหน่วย</th>
+            <th>ราคารวม</th>
+        </tr>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice.ToString("N2")</td>
+                <td>@item.TotalPrice.ToString("N2")</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3" class="text-right"><strong>ยอดรวมทั้งสิ้น</strong></td>
+            <td><strong>@Model.TotalAmount.ToString("N2")</strong></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    @Html.ActionLink("กลับไปหน้ารายการ", "Index")
+</div> 
