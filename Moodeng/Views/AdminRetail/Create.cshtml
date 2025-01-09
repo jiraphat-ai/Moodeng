@@ -1,0 +1,60 @@
+﻿@model Moodeng.Models.ProductCreateViewModel
+@{
+    ViewBag.Title = "เพิ่มสินค้าใหม่";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="custom-navbar text-white">
+    <div class="container">
+        <h2>เพิ่มสินค้าใหม่</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    @using (Html.BeginForm("Create", "AdminRetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.ProductName, "ชื่อสินค้า", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ProductName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.CategoryId, "หมวดหมู่", new { @class = "form-label" })
+                            @Html.DropDownListFor(m => m.CategoryId, (IEnumerable<SelectListItem>)ViewBag.Categories, "-- เลือกหมวดหมู่ --", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Price, "ราคา", new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01" })
+                            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Description, "รายละเอียด", new { @class = "form-label" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "4" })
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">รูปภาพสินค้า</label>
+                            <input type="file" name="picture" class="form-control" accept="image/*" />
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark">บันทึก</button>
+                            @Html.ActionLink("ยกเลิก", "Index", null, new { @class = "btn btn-outline-dark" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

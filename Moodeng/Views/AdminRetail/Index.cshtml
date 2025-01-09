@@ -1,0 +1,150 @@
+﻿@model List<Moodeng.Product>
+@{
+    ViewBag.Title = "จัดการสินค้า";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .custom-navbar {
+        background-color: #212529;
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+    .card {
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .btn-custom-primary {
+        background-color: #212529;
+        color: white;
+        border: none;
+    }
+    .btn-custom-primary:hover {
+        background-color: #343a40;
+        color: white;
+    }
+    .search-container {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+    .product-image {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .card-footer {
+        background-color: transparent;
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+</style>
+
+
+<div class="container">
+    <div class="search-container">
+        <div class="row">
+            <div>@Html.ActionLink("New Product", "Create", null, new { @class = "btn btn-light" })</div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Product Name">
+                    <div class="input-group-append">
+                        <button class="btn btn-custom-primary" type="button" onclick="searchProducts()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+                @if (ViewBag.Categories != null)
+                {
+                    @Html.DropDownList("CategoryFilter", 
+                        (IEnumerable<SelectListItem>)ViewBag.Categories,
+                        "Categories", 
+                        new { @class = "form-control" })
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="productsContainer">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4 product-item" data-category="@item.CategoryId">
+                <div class="card h-100">
+                    <img src="@item.Picture" class="product-image" alt="@item.ProductName">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ProductName</h5>
+                        <p class="card-text">
+                            <span class="badge bg-dark">฿@item.Price.ToString("N2")</span>
+                        </p>
+                        <p class="card-text"><small class="text-muted">หมวดหมู่: @item.Category.CategoryName</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group w-100">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-outline-dark" })
+                            @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-outline-dark" })
+                            <button type="button" class="btn btn-outline-danger" onclick="confirmDelete(@item.ProductId)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function searchProducts() {
+            var input = document.getElementById('searchInput').value.toLowerCase();
+            var products = document.getElementsByClassName('product-item');
+
+            Array.from(products).forEach(function (product) {
+                var title = product.querySelector('.card-title').textContent.toLowerCase();
+                if (title.includes(input)) {
+                    product.style.display = "";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
+
+        function filterByCategory(categoryId) {
+            var products = document.getElementsByClassName('product-item');
+
+            Array.from(products).forEach(function (product) {
+                if (categoryId === "" || product.dataset.category === categoryId) {
+                    product.style.display = "";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
+
+        function confirmDelete(productId) {
+            if (confirm('Are you sure for delete this Item?')) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/AdminRetail/Delete/' + productId;
+
+                var antiForgeryToken = document.createElement('input');
+                antiForgeryToken.type = 'hidden';
+                antiForgeryToken.name = '__RequestVerificationToken';
+                antiForgeryToken.value = $('input[name="__RequestVerificationToken"]').val();
+
+                form.appendChild(antiForgeryToken);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+}
+

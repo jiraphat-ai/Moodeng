@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -207,13 +208,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminDashboardController.cs" />
+    <Compile Include="Controllers\AdminRetailController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CartItemViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\ProductViewModel.cs" />
-    <Compile Include="Controllers\RetailHomeController.cs" />
+    <Compile Include="Controllers\ProductsRetailController.cs" />
+    <Compile Include="Models\ProductCreateViewModel.cs" />
+    <Compile Include="Controllers\RetaillHomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TrackOrderController.cs" />
     <Compile Include="Controllers\WishListController.cs" />
@@ -357,10 +360,19 @@
     <Content Include="Views\Stock\Index.cshtml" />
     <Content Include="Views\Stock\Create.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\RetaillHome\Index.cshtml" />
+    <Content Include="Views\AdminRetail\Index.cshtml" />
+    <Content Include="Views\AdminRetail\Create.cshtml" />
+    <Content Include="Views\RetaillHome\Edit.cshtml" />
+    <Content Include="Views\AdminRetail\Edit.cshtml" />
+    <Content Include="Views\AdminRetail\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\" />
     <Folder Include="Entitie\" />
+    <Folder Include="util\" />
+    <Folder Include="Views\ProductsRetail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

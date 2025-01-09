@@ -79,6 +79,19 @@ namespace Moodeng.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = await UserManager.FindByEmailAsync(model.Email);
+
+                    // Check if the user is an Admin
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+                        if (roles.Contains("admin"))
+                        {
+                        // Redirect non-admin users attempting to access the admin page
+                        returnUrl = "/AdminDashboard";
+                        }else if (roles.Contains("retail"))
+                    {
+                        returnUrl = "/AdminRetail";
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

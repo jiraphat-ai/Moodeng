@@ -26,7 +26,7 @@ namespace Moodeng.Controllers
 
 {
 
-    public class RetailHome : Controller
+    public class RetaillHome : Controller
 
     {
 
@@ -52,7 +52,7 @@ namespace Moodeng.Controllers
 
 
 
-            var model = new ProductViewModel
+            var model = new ProductCreateViewModel
 
             {
 
@@ -72,7 +72,7 @@ namespace Moodeng.Controllers
 
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create(ProductViewModel model, HttpPostedFileBase picture)
+        public ActionResult Create(ProductCreateViewModel model, HttpPostedFileBase picture)
 
         {
 
@@ -234,7 +234,7 @@ namespace Moodeng.Controllers
 
 
 
-            var model = new ProductViewModel
+            var model = new ProductCreateViewModel
 
             {
 
@@ -268,7 +268,7 @@ namespace Moodeng.Controllers
 
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit(ProductViewModel model, HttpPostedFileBase picture)
+        public ActionResult Edit(ProductCreateViewModel model, HttpPostedFileBase picture)
 
         {
 

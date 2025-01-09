@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 
-namespace Moodeng.Controllers
+namespace Moodeng.Models
 {
-    public class ProductViewModel
+    public class ProductCreateViewModel
     {
         public object Id { get; internal set; }
         public IQueryable<SelectListItem> Categories { get; internal set; }
