@@ -213,6 +213,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ProductViewModel.cs" />
+    <Compile Include="Controllers\RetailHomeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TrackOrderController.cs" />
     <Compile Include="Controllers\WishListController.cs" />

@@ -12,14 +12,15 @@ namespace Moodeng.Controllers
         private moodeng_Entities db = new moodeng_Entities();
 
         // GET: TrackOrder
-        public ActionResult Index()
+        public ActionResult Index(string status = "Pending")
         {
             var userId = User.Identity.GetUserId();
             var orders = db.Orders
-                .Where(o => o.CustomerId == userId)
+                .Where(o => o.CustomerId == userId && o.OrderStatus == status)
                 .OrderByDescending(o => o.OrderDate)
                 .ToList();
 
+            ViewBag.CurrentStatus = status;
             return View(orders);
         }
 
