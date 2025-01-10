@@ -1,0 +1,70 @@
+﻿@model Moodeng.Product
+
+@{
+    ViewBag.Title = "Product Details";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="min-h-screen bg-gray-50 p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Product Details</h2>
+        <div class="flex space-x-3">
+        <div class="flex space-x-3">
+            <a href="@Url.Action("Index", "AdminProducts")"
+               class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="p-6">
+                <div class="aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden">
+                    @if (!string.IsNullOrEmpty(Model.Picture))
+                    {
+                        <img src="@Url.Content(Model.Picture)"
+                             alt="@Model.ProductName"
+                             class="w-full h-full object-cover">
+                    }
+                    else
+                    {
+                        <div class="flex items-center justify-center h-full">
+                            <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="p-6 bg-gray-50">
+                <dl class="space-y-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Product Name</dt>
+                        <dd class="mt-1 text-lg font-medium text-gray-900">@Model.ProductName</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Category</dt>
+                        <dd class="mt-1">
+                            <span class="px-2 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-800">
+                                @Model.Category.CategoryName
+                            </span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Price</dt>
+                        <dd class="mt-1 text-2xl font-bold text-gray-900">฿@Model.Price.ToString("N2")</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Description</dt>
+                        <dd class="mt-1 text-gray-900">@Model.Description</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Retail ID</dt>
+                        <dd class="mt-1 text-gray-900">@Model.RetailId</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

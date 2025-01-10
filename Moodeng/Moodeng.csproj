@@ -208,6 +208,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminDashboardController.cs" />
+    <Compile Include="Controllers\AdminManageUserController.cs" />
+    <Compile Include="Controllers\AdminProductsController.cs" />
     <Compile Include="Controllers\AdminRetailController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CartItemViewModel.cs" />
@@ -369,6 +371,18 @@
     <Content Include="Views\AdminRetail\Details.cshtml" />
     <Content Include="Views\OrderRetail\Index.cshtml" />
     <Content Include="Views\OrderRetail\OrderDetails.cshtml" />
+    <Content Include="Views\Shared\_Layout-Admin.cshtml" />
+    <Content Include="Views\AdminProducts\Create.cshtml" />
+    <Content Include="Views\AdminProducts\Delete.cshtml" />
+    <Content Include="Views\AdminProducts\Details.cshtml" />
+    <Content Include="Views\AdminProducts\Edit.cshtml" />
+    <Content Include="Views\AdminProducts\Index.cshtml" />
+    <Content Include="Views\AdminManageUser\Create.cshtml" />
+    <Content Include="Views\AdminManageUser\Delete.cshtml" />
+    <Content Include="Views\AdminManageUser\Details.cshtml" />
+    <Content Include="Views\AdminManageUser\Edit.cshtml" />
+    <Content Include="Views\AdminManageUser\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout-AdminRetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

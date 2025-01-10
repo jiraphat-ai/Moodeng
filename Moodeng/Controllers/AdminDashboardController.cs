@@ -21,7 +21,7 @@ namespace Moodeng.Controllers
             var totalSales = _context.Orders.Sum(o => (decimal?)o.TotalAmount) ?? 0;
             // Pending Orders
 
-            var pendingOrdersCount = 10;
+            var pendingOrdersCount = _context.Orders.Sum(o => (decimal?)o.TotalAmount) ?? 0;
             var completedOrdersCount = 6;
 
 

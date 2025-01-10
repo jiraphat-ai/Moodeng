@@ -1,0 +1,78 @@
+﻿@model Moodeng.AspNetUser
+
+@{
+    ViewBag.Title = "User Details";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="min-h-screen bg-gray-50 p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">User Details</h2>
+        <div class="flex space-x-3">
+            <a href="@Url.Action("Edit", "AdminManageUser", new { id = Model.Id })" 
+               class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                Edit User
+            </a>
+            <a href="@Url.Action("Index", "AdminManageUser")" 
+               class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+                <dl class="space-y-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Username</dt>
+                        <dd class="mt-1 text-sm text-gray-900">@Model.UserName</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email</dt>
+                        <dd class="mt-1 text-sm text-gray-900">@Model.Email</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Phone Number</dt>
+                        <dd class="mt-1 text-sm text-gray-900">@Model.PhoneNumber</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Role</dt>
+                        <dd class="mt-1">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                @Model.Role
+                            </span>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Account Status</h3>
+                <dl class="space-y-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Account Status</dt>
+                        <dd class="mt-1">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full @(Model.LockoutEnabled ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800")">
+                                @(Model.LockoutEnabled ? "Active" : "Inactive")
+                            </span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email Confirmed</dt>
+                        <dd class="mt-1">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full @(Model.EmailConfirmed ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800")">
+                                @(Model.EmailConfirmed ? "Verified" : "Not Verified")
+                            </span>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Last Login</dt>
+                        <dd class="mt-1 text-sm text-gray-900">@Model.LockoutEndDateUtc</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

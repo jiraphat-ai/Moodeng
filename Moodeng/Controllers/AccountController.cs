@@ -86,7 +86,7 @@ namespace Moodeng.Controllers
                         if (roles.Contains("admin"))
                         {
                         // Redirect non-admin users attempting to access the admin page
-                        returnUrl = "/AdminDashboard";
+                        returnUrl = "/Admin/index";
                         }else if (roles.Contains("retail"))
                     {
                         returnUrl = "/AdminRetail";

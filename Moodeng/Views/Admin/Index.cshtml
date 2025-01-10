@@ -1,36 +1,32 @@
 ﻿@{
     ViewBag.Title = "Admin Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 
     // Mock Data สำหรับกราฟ
     var monthlyData = new
     {
-        labels = new[] { "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย." },
-        data = new[] { 45000, 52000, 49000, 60000, 55000, 58000 }
+        labels = ViewBag.G1_label,
+        data = ViewBag.G1_data
     };
 
     var topProducts = new
     {
-        labels = new[] { "สินค้า A", "สินค้า B", "สินค้า C", "สินค้า D", "สินค้า E" },
-        data = new[] { 500, 450, 400, 350, 300 }
+        labels = ViewBag.G2_label,
+        data = ViewBag.G2_data
     };
 
     var trendingProducts = new
     {
-        labels = new[] { "สินค้า X", "สินค้า Y", "สินค้า Z", "สินค้า W", "สินค้า V" },
-        data = new[] { 150, 120, 100, 90, 80 }
+        labels = ViewBag.G2_label,
+        data = ViewBag.G2_data
     };
 
     var lowSalesProducts = new
     {
-        labels = new[] { "สินค้า M", "สินค้า N", "สินค้า O", "สินค้า P", "สินค้า Q" },
-        data = new[] { 10, 15, 20, 25, 30 }
+        labels = ViewBag.G3_label,
+        data = ViewBag.G3_data
     };
 
-    // Mock Data สำหรับ Stats Cards
-    ViewBag.TotalUsers = 156;
-    ViewBag.TotalStores = 42;
-    ViewBag.TodayOrders = 25;
 
     // Mock Data สำหรับ Recent Activities
     var recentActivities = new[]
@@ -58,7 +54,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-white text-sm">ผู้ใช้ทั้งหมด</p>
-                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalUsers</h3>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalUser</h3>
                     </div>
                 </div>
             </div>
@@ -74,7 +70,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-white text-sm">ร้านค้าทั้งหมด</p>
-                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalStores</h3>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalRetail</h3>
                     </div>
                 </div>
             </div>
@@ -90,7 +86,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-white text-sm">ออเดอร์วันนี้</p>
-                        <h3 class="text-white text-2xl font-bold">@ViewBag.TodayOrders</h3>
+                        <h3 class="text-white text-2xl font-bold">@ViewBag.TotalOrder</h3>
                     </div>
                 </div>
             </div>
