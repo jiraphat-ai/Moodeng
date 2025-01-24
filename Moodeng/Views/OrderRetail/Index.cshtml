@@ -2,7 +2,7 @@
 
     @{
         ViewBag.Title = "Order List";
-        Layout = "~/Views/Shared/_Layout.cshtml";
+        Layout = "~/Views/Shared/_Layout-AdminRetail.cshtml";
     }
 
     <h2>รายการออเดอร์</h2>
@@ -10,11 +10,12 @@
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(model => model.OrderId)</th>
-            <th>ชื่อลูกค้า</th>
+
             <th>วันที่สั่งซื้อ</th>
             <th>สถานะ</th>
             <th>ยอดรวม</th>
             <th>การชำระเงิน</th>
+     
             <th></th>
         </tr>
 
@@ -22,15 +23,17 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.OrderId)</td>
-                <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+               
                 <td> @string.Format("{0:yyyy-MM-dd}", item.OrderDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.OrderStatus)</td>
                 <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
                 <td>@Html.DisplayFor(modelItem => item.Payment)</td>
                 <td>
                     @Html.ActionLink("Details", "OrderDetails", new { id = item.OrderId })
-                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderId })
+                  
+              
                 </td>
+
             </tr>
         }
     </table>

@@ -42,9 +42,21 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    @Html.EditorFor(model => model.PasswordHash, new { htmlAttributes = new { @class = "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" } })
+                    @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    @Html.EditorFor(model => model.SecurityStamp, new { htmlAttributes = new { @class = "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" } })
+                    @Html.ValidationMessageFor(model => model.SecurityStamp, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                    @Html.DropDownListFor(model => model.Role, 
-                        new SelectList(new[] { "User", "Shop Owner", "Admin" }), 
+                    @Html.DropDownListFor(model => model.Role,
+                        new SelectList(new[] { "User", "Shop Owner", "Admin" }),
                         "Select Role",
                         new { @class = "w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500" })
                     @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-red-500 text-sm mt-1" })

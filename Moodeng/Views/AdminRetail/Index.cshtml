@@ -49,7 +49,6 @@
 <div class="container">
     <div class="search-container">
         <div class="row">
-            <a href="@Url.Action("Create", "AdminRetail")" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md">New Product</a>
             <div class="col-md-6">
                 <div class="input-group">
                     <input type="text" id="searchInput" class="form-control" placeholder="Product Name">
@@ -71,14 +70,17 @@
                 }
             </div>
         </div>
+        <div class="mt-6">
+            <a href="@Url.Action("Create", "AdminRetail")" class="px-6 py-2 text-white bg-green-500 rounded-md hover:text-white">New Product</a>
+        </div>
     </div>
 
-    <div class="row" id="productsContainer">
+    <div class="grid grid-cols-3 gap-5" id="productsContainer">
         @foreach (var item in Model)
         {
-            <div class="col-md-4 mb-4 product-item" data-category="@item.CategoryId">
+            <div class="col-span-1 mb-4 product-item" data-category="@item.CategoryId">
                 <div class="card h-100">
-                    <img src="@item.Picture" class="product-image" alt="@item.ProductName">
+                    <img src="@item.Picture" class="h-[300px] object-contain mx-auto" alt="@item.ProductName">
                     <div class="card-body">
                         <h5 class="card-title">@item.ProductName</h5>
                         <p class="card-text">

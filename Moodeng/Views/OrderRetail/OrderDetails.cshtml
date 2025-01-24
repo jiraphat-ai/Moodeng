@@ -1,51 +1,58 @@
 ﻿@model Moodeng.Order
-
 @{
     ViewBag.Title = "Order Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout-AdminRetail.cshtml";
 }
-
 <h2>Order Details #@Model.OrderId</h2>
-
 <div>
     <dl class="dl-horizontal">
         <dt>Customer Name</dt>
         <dd>@Model.Customer</dd>
-
         <dt>Order Date</dt>
-        <dd @string.Format("{0:yyyy-MM-dd}", Model.OrderDate)</dd>
-
+        <dd>@string.Format("{0:yyyy-MM-dd}", Model.OrderDate)</dd>
         <dt>Status</dt>
         <dd>@Model.OrderStatus</dd>
-
         <dt>Payment</dt>
         <dd>@Model.Payment</dd>
     </dl>
-
     <h4>Product List</h4>
     <table class="table">
-        <tr>
-            <th>Product Name</th>
-            <th>Count</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-        @foreach (var item in Model.OrderDetails)
-        {
+        <thead>
             <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.UnitPrice.ToString("N2")</td>
-                <td>@item.TotalPrice</td>
+                <th>Product Name</th>
+                <th>Count</th>
+                <th>Price</th>
+                <th>Total</th>
             </tr>
-        }
-        <tr>
-            <td colspan="3" class="text-right"><strong>Total Price</strong></td>
-            <td><strong>@Model.TotalAmount.ToString("N2")</strong></td>
-        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice.ToString("N2")</td>
+                    <td>@item.TotalPrice</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" class="text-right"><strong>Total Price</strong></td>
+                <td><strong>@Model.TotalAmount.ToString("N2")</strong></td>
+            </tr>
+        </tbody>
     </table>
 </div>
-
 <div>
-    @Html.ActionLink("Back To Ortder List", "Index")
-</div> 
+    @using (Html.BeginForm("ConfirmOrder", "OrderRetail", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken() <!-- ป้องกัน CSRF -->
+        <input type="hidden" name="id" value="@Model.OrderId" />
+
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to confirm this order?');">
+            Confirm Order
+        </button>
+    }
+
+
+    @Html.ActionLink("Back To Order List", "Index", null, new { @class = "btn btn-secondary" })
+</div>

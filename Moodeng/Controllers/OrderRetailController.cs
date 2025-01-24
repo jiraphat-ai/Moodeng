@@ -91,5 +91,31 @@ namespace Moodeng.Controllers
             return View(order);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmOrder(int id)
+        {
+            var order = db.Orders.Find(id);
+
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            // เปลี่ยนสถานะเป็น "Completed"
+            order.OrderStatus = "Completed";
+
+            // บันทึกการเปลี่ยนแปลงในฐานข้อมูล
+            db.Entry(order).State = EntityState.Modified;
+            db.SaveChanges(); // บันทึกการเปลี่ยนแปลง
+
+            // ส่งกลับไปยังหน้าแสดงรายละเอียดของคำสั่งซื้อ
+            return RedirectToAction("OrderDetails", new { id = id });
+        }
+
+
+
+
+
     }
 }
