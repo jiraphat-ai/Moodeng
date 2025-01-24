@@ -50,5 +50,46 @@ namespace Moodeng.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // GET: OrderRetail/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Pass the current status to the view
+            return View(order);
+        }
+
+        // POST: OrderRetail/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, string status)
+        {
+            var order = db.Orders.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                order.OrderStatus = status; // Update the status
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(order);
+        }
+
     }
 }

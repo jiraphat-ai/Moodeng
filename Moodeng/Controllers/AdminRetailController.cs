@@ -62,26 +62,23 @@ namespace Moodeng.Controllers
 
 
                 if (picture != null)
-
                 {
                     var file = Request.Files[0];
                     if (file != null && file.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(file.FileName);
-                        var path = Path.Combine(Server.MapPath("~/Content/images"), fileName);
-                        file.SaveAs(path);
-                        product.Picture = fileName;
+                        var relativePath = "/Content/images/" + fileName;
+                        var absolutePath = Server.MapPath(relativePath);
+                        file.SaveAs(absolutePath);
+                        product.Picture = relativePath; // Save the relative path in the database
                     }
-
                 }
-
-
 
                 db.Products.Add(product);
 
                 db.SaveChanges();
 
-                return RedirectToAction("AdminRetail");
+                return RedirectToAction("Index", "AdminRetail");
 
             }
 
@@ -143,7 +140,7 @@ namespace Moodeng.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "AdminRetail");
 
         }
 
@@ -222,6 +219,22 @@ namespace Moodeng.Controllers
             return View(products);
 
         }
+
+        public static string GetImagePath(string picture)
+        {
+            if (string.IsNullOrEmpty(picture))
+            {
+                return "/images/default.jpg"; 
+            }
+
+            if (Uri.IsWellFormedUriString(picture, UriKind.Absolute))
+            {
+                return picture; 
+            }
+
+            return $"/uploads/{picture}";
+        }
+
 
     }
 }

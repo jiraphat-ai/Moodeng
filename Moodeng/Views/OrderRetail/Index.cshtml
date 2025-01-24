@@ -29,6 +29,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Payment)</td>
                 <td>
                     @Html.ActionLink("Details", "OrderDetails", new { id = item.OrderId })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderId })
                 </td>
             </tr>
         }
